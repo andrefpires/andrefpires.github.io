@@ -14,15 +14,9 @@
     <label>
       ID: 
       <input name="animalID" type="text" placeholder=" Escreva a id aqui"/>
-      <button onclick="imprime()">Ok</button>
+      <button>Ok</button>
     </label>
   </div>
-  <script>
-    const animalsByIds = (...ids) => {
-      let arrReturned = [];
-      arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
-      return arrReturned;
-    };
-  </script>
+  <script src="zoo.js"></script>
 </body>
 </html>
