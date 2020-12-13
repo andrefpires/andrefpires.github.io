@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoo Functions</title>
+  <link rel="stylesheet" type="text/css" href="zoo.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Zoo Functions</h1>
+    </header>
+    <label>
+      ID: 
+      <input name="animalID" type="text" placeholder=" Escreva a id aqui"/>
+      <button onclick="imprime()">Ok</button>
+    </label>
+  </div>
+  <script>
+    const animalsByIds = (...ids) => {
+      let arrReturned = [];
+      arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
+      return arrReturned;
+    };
+  </script>
+</body>
+</html>
