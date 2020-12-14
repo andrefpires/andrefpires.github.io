@@ -330,42 +330,60 @@ const data = {
   }
 };
 
-const newAnimal = (param) => {
-  const tagCaptured = document.querySelector('.app');
-  const tagDivAnimal = document.createElement('div');
-  const tagDivGeral = document.createElement('div');
-  tagDivGeral.id = 'geral';
-  tagDivAnimal.id = 'animalInformations';
-  tagCaptured.appendChild(tagDivGeral);
-  tagDivGeral.appendChild(tagDivAnimal);
-  const tagsCreateds = ['h2', 'p', 'p'];
-  const atributes = ['name', 'location', 'popularity'];
-  tagsCreateds.map((tag, index) => {
-    const tagCreated = document.createElement(tag);
-    tagCreated.innerText = param[atributes[index]];
-    tagDivAnimal.appendChild(tagCreated);
-  })
+const createResidents = ({ residents }) => {
   const tagh3 = document.createElement('h3');
   tagh3.innerText = 'Residents';
-  const tagDivResidents = document.createElement('div');
-  tagDivResidents.id = 'residents';
-  tagDivGeral.appendChild(tagDivResidents);
+  const tagDivResidents = document.querySelector('#residents');
   tagDivResidents.appendChild(tagh3);
-  param.residents.forEach((resident) => {
+
+  residents.forEach((resident) => {
     const newResident = document.createElement('div');
+    newResident.className = 'newResident';
     const tagForName = document.createElement('h4');
     const tagForSex = document.createElement('p');
     const tagForAge = document.createElement('p');
+
     tagForName.innerText = resident.name;
     tagForSex.innerText = resident.sex;
     tagForAge.innerText = resident.age;
-    newResident.className = 'newResident';
+
     newResident.appendChild(tagForName);
     newResident.appendChild(tagForSex);
     newResident.appendChild(tagForAge);
+
     tagDivResidents.appendChild(newResident);
+  });
+};
+
+const createAnimal = (informations) => {
+  const tagDivAnimalInformations = document.querySelector('#animalInformations');
+  const tagNames = ['h2', 'p', 'p'];
+  const animalAtributes = ['name', 'location', 'popularity'];
+
+  tagNames.map((tagName, index) => {
+    const newElement = document.createElement(tagName);
+    newElement.innerText = informations[animalAtributes[index]];
+    tagDivAnimalInformations.appendChild(newElement);
   })
+
+  createResidents(informations);
 }
+
+const newAnimal = (animalInformations) => {
+  const tagDivApp = document.querySelector('.app');
+  const tagDivGeral = document.createElement('div');
+  tagDivGeral.id = 'geral';
+  const tagDivAnimalInformations = document.createElement('div');
+  tagDivAnimalInformations.id = 'animalInformations';
+  const tagDivResidents = document.createElement('div');
+  tagDivResidents.id = 'residents';
+
+  tagDivApp.appendChild(tagDivGeral);
+  tagDivGeral.appendChild(tagDivAnimalInformations);
+  tagDivGeral.appendChild(tagDivResidents);
+
+  tagDivGeral.appendChild(createAnimal(animalInformations));
+};
 
 const animalsByIds = (event) => {
   let arrReturned = [];
