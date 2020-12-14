@@ -330,18 +330,48 @@ const data = {
   }
 };
 
-const createNewElement = (param) => {
+const newAnimal = (param) => {
   const tagCaptured = document.querySelector('.app');
-  const tagCreated = document.createElement('p');
-  tagCreated.innerText = param;
-  tagCaptured.appendChild(tagCreated);
+  const tagDivAnimal = document.createElement('div');
+  const tagDivGeral = document.createElement('div');
+  tagDivGeral.id = 'geral';
+  tagDivAnimal.id = 'animalInformations';
+  tagCaptured.appendChild(tagDivGeral);
+  tagDivGeral.appendChild(tagDivAnimal);
+  const tagsCreateds = ['h2', 'p', 'p'];
+  const atributes = ['name', 'location', 'popularity'];
+  tagsCreateds.map((tag, index) => {
+    const tagCreated = document.createElement(tag);
+    tagCreated.innerText = param[atributes[index]];
+    tagDivAnimal.appendChild(tagCreated);
+  })
+  const tagh3 = document.createElement('h3');
+  tagh3.innerText = 'Residents';
+  const tagDivResidents = document.createElement('div');
+  tagDivResidents.id = 'residents';
+  tagDivGeral.appendChild(tagDivResidents);
+  tagDivResidents.appendChild(tagh3);
+  param.residents.forEach((resident) => {
+    const newResident = document.createElement('div');
+    const tagForName = document.createElement('h4');
+    const tagForSex = document.createElement('p');
+    const tagForAge = document.createElement('p');
+    tagForName.innerText = resident.name;
+    tagForSex.innerText = resident.sex;
+    tagForAge.innerText = resident.age;
+    newResident.className = 'newResident';
+    newResident.appendChild(tagForName);
+    newResident.appendChild(tagForSex);
+    newResident.appendChild(tagForAge);
+    tagDivResidents.appendChild(newResident);
+  })
 }
 
 const animalsByIds = (event) => {
   let arrReturned = [];
   const ids = [event.target.previousElementSibling.value];
   arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
-  arrReturned.forEach(animal => createNewElement(animal.name));
+  arrReturned.forEach(animal => newAnimal(animal));
 };
 
 const button = document.querySelector('button');
