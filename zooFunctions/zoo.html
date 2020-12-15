@@ -11,11 +11,22 @@
     <header>
       <h1>Zoo Functions</h1>
     </header>
-    <label>
+    <label id="animalSearchForId">
       ID:
-      <input name="animalID" type="text" placeholder=" Escreva a id aqui"/>
-      <button>Ok</button>
+      <input name="animalID" type="text" placeholder="Escreva a id aqui"/>
+      <button class="button-byId">Ok</button>
     </label>
+    <div id="animalSearchForName">
+      <label>
+        NAME:
+        <input name="animalName" type="text" placeholder="Escreva o nome aqui"/>
+      </label>
+      <label>
+        MINIMUM AGE:
+        <input name="animalAge" type="number" />
+      </label>
+      <button class="button-byName">Ok</button>
+    </div>
   </div>
   <script src="zoo.js"></script>
 </body>

@@ -330,9 +330,20 @@ const data = {
   }
 };
 
-const createResidents = ({ residents }) => {
+const animalCount = (species) => {
+  if (species === undefined) {
+    const obj = {};
+    data.animals.forEach((animal) => { obj[animal.name] = animal.residents.length; });
+    return obj;
+  }
+
+  const residents = data.animals.find(animal => animal.name === species).residents.length;
+  return residents;
+};
+
+const createResidents = ({ name, residents }) => {
   const tagh3 = document.createElement('h3');
-  tagh3.innerText = 'Residents';
+  tagh3.innerText = `Residents: ${animalCount(name)}`;
   const tagDivResidents = document.querySelector('#residents');
   tagDivResidents.appendChild(tagh3);
 
@@ -367,7 +378,7 @@ const createAnimal = (informations) => {
   })
 
   createResidents(informations);
-}
+};
 
 const newAnimal = (animalInformations) => {
   const tagDivApp = document.querySelector('.app');
@@ -392,13 +403,19 @@ const animalsByIds = (event) => {
   arrReturned.forEach(animal => newAnimal(animal));
 };
 
-const button = document.querySelector('button');
-button.addEventListener('click', animalsByIds);
-
-const animalsOlderThan = (animal, age) => {
+const animalsOlderThan = (event) => {
+  const animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
+  const age = parseFloat(event.target.parentNode.childNodes[3].firstChild.nextSibling.value);
   const animalsResidents = data.animals.find(element => element.name === animal).residents;
-  return animalsResidents.every(resident => resident.age >= age);
+  const animalsFound = animalsResidents.filter(resident => resident.age >= age);
+  createResidents(animalsFound);
 };
+
+const buttonById = document.querySelector('.button-byId');
+buttonById.addEventListener('click', animalsByIds);
+
+const buttonByName = document.querySelector('.button-byName');
+buttonByName.addEventListener('click', animalsOlderThan);
 
 const employeeByName = (employeeName) => {
   let obj = {};
@@ -428,17 +445,6 @@ const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []
   };
 
   return data.employees.push(newEmployee);
-};
-
-const animalCount = (species) => {
-  if (species === undefined) {
-    const obj = {};
-    data.animals.forEach((animal) => { obj[animal.name] = animal.residents.length; });
-    return obj;
-  }
-
-  const residents = data.animals.find(animal => animal.name === species).residents.length;
-  return residents;
 };
 
 const entryCalculator = (entrants) => {
