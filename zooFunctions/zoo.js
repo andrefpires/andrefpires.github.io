@@ -393,7 +393,7 @@ const newAnimal = (animalInformations) => {
   tagDivGeral.appendChild(tagDivAnimalInformations);
   tagDivGeral.appendChild(tagDivResidents);
 
-  tagDivGeral.appendChild(createAnimal(animalInformations));
+  createAnimal(animalInformations);
 };
 
 const animalsByIds = (event) => {
@@ -406,9 +406,10 @@ const animalsByIds = (event) => {
 const animalsOlderThan = (event) => {
   const animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
   const age = parseFloat(event.target.parentNode.childNodes[3].firstChild.nextSibling.value);
-  const animalsResidents = data.animals.find(element => element.name === animal).residents;
-  const animalsFound = animalsResidents.filter(resident => resident.age >= age);
-  createResidents(animalsFound);
+  const animalsResidents = data.animals.find(element => element.name === animal);
+  const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
+  animalsResidents.residents = animalsFound;
+  newAnimal(animalsResidents);
 };
 
 const buttonById = document.querySelector('.button-byId');
