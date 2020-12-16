@@ -406,9 +406,19 @@ const animalsByIds = (event) => {
 const animalsOlderThan = (event) => {
   const animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
   const age = parseFloat(event.target.parentNode.childNodes[3].firstChild.nextSibling.value);
-  const animalsResidents = data.animals.find(element => element.name === animal);
+  const animalsResidents = JSON.parse(JSON.stringify(data.animals.find(element => element.name === animal)));
+  console.log(animalsResidents)
   const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
+  console.log(animalsFound)
   animalsResidents.residents = animalsFound;
+  console.log(`aqui ${data.animals[1].residents.length}`)
+
+  const verifyTagDivGeral = document.querySelector('#geral');
+
+  if(verifyTagDivGeral !== null) {
+    verifyTagDivGeral.remove();
+  }
+
   newAnimal(animalsResidents);
 };
 
