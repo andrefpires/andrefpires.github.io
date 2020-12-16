@@ -341,9 +341,16 @@ const animalCount = (species) => {
   return residents;
 };
 
-const createResidents = ({ name, residents }) => {
+const animalsByIds = (event) => {
+  let arrReturned = [];
+  const ids = [event.target.previousElementSibling.value];
+  arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
+  arrReturned.forEach(animal => newAnimal(animal));
+};
+
+const createResidents = ({ residents }) => {
   const tagh3 = document.createElement('h3');
-  tagh3.innerText = `Residents: ${animalCount(name)}`;
+  tagh3.innerText = `Residents: ${residents.length}`;
   const tagDivResidents = document.querySelector('#residents');
   tagDivResidents.appendChild(tagh3);
 
@@ -396,13 +403,6 @@ const newAnimal = (animalInformations) => {
   createAnimal(animalInformations);
 };
 
-const animalsByIds = (event) => {
-  let arrReturned = [];
-  const ids = [event.target.previousElementSibling.value];
-  arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
-  arrReturned.forEach(animal => newAnimal(animal));
-};
-
 const animalsOlderThan = (event) => {
   const animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
   const age = parseFloat(event.target.parentNode.childNodes[3].firstChild.nextSibling.value);
@@ -412,7 +412,7 @@ const animalsOlderThan = (event) => {
 
   const verifyTagDivGeral = document.querySelector('#geral');
 
-  if(verifyTagDivGeral !== null) {
+  if (verifyTagDivGeral !== null) {
     verifyTagDivGeral.remove();
   }
 
