@@ -330,6 +330,25 @@ const data = {
   }
 };
 
+const errorMessage = () => {
+  const tagDivApp = document.querySelector('.app');
+  const error = document.createElement('p');
+  error.innerText = 'Faltando valor';
+  error.id = 'errorMessage';
+  tagDivApp.appendChild(error);
+}
+
+const removeElements = () => {
+  const verifyTagDivGeral = document.querySelector('#geral');
+  const errorMessage = document.querySelector('#errorMessage');
+
+  if (verifyTagDivGeral !== null) {
+    verifyTagDivGeral.remove();
+  } else if (errorMessage !== null) {
+    errorMessage.remove();
+  }
+}
+
 const animalCount = (species) => {
   if (species === undefined) {
     const obj = {};
@@ -339,13 +358,6 @@ const animalCount = (species) => {
 
   const residents = data.animals.find(animal => animal.name === species).residents.length;
   return residents;
-};
-
-const animalsByIds = (event) => {
-  let arrReturned = [];
-  const ids = [event.target.previousElementSibling.value];
-  arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
-  arrReturned.forEach(animal => newAnimal(animal));
 };
 
 const createResidents = ({ residents }) => {
@@ -387,6 +399,14 @@ const createAnimal = (informations) => {
   createResidents(informations);
 };
 
+const notFound = () => {
+  const animalsInformations = document.querySelector('#geral');
+  const messageNotFound = document.createElement('p');
+  messageNotFound.innerText = 'Not Found';
+  messageNotFound.id = 'notFound';
+  animalsInformations.appendChild(messageNotFound);
+}
+
 const newAnimal = (animalInformations) => {
   const tagDivApp = document.querySelector('.app');
   const tagDivGeral = document.createElement('div');
@@ -400,30 +420,50 @@ const newAnimal = (animalInformations) => {
   tagDivGeral.appendChild(tagDivAnimalInformations);
   tagDivGeral.appendChild(tagDivResidents);
 
-  createAnimal(animalInformations);
+  if (animalInformations === undefined) {
+    notFound();
+  } else if (animalInformations.name === undefined) {
+    notFound();
+  } else {
+    createAnimal(animalInformations);
+  }
 };
 
 const animalsOlderThan = (event) => {
-  const animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
+  removeElements();
+  let animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
   const age = parseFloat(event.target.parentNode.childNodes[3].firstChild.nextSibling.value);
-  const animalsResidents = JSON.parse(JSON.stringify(data.animals.find(element => element.name === animal)));
-  const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
-  animalsResidents.residents = animalsFound;
+  if (animal === '' || Number.isNaN(age)) {
+    errorMessage();
+  } else {
+    const animalsResidents = {};
+    Object.assign(animalsResidents, data.animals.find(element => element.name === animal));
+    if (animalsResidents.residents !== undefined) {
+      const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
+      animalsResidents.residents = animalsFound;
+    }
 
-  const verifyTagDivGeral = document.querySelector('#geral');
-
-  if (verifyTagDivGeral !== null) {
-    verifyTagDivGeral.remove();
+    newAnimal(animalsResidents);
   }
-
-  newAnimal(animalsResidents);
 };
 
-const buttonById = document.querySelector('.button-byId');
-buttonById.addEventListener('click', animalsByIds);
+const animalsByIds = (event) => {
+  removeElements();
+  let arrReturned = [];
+  const ids = [event.target.previousElementSibling.value];
+  if (ids[0] === '') {
+    errorMessage();
+  } else {
+    arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
+    arrReturned.forEach(animal => newAnimal(animal));
+  }
+};
 
 const buttonByName = document.querySelector('.button-byName');
 buttonByName.addEventListener('click', animalsOlderThan);
+
+const buttonById = document.querySelector('.button-byId');
+buttonById.addEventListener('click', animalsByIds);
 
 const employeeByName = (employeeName) => {
   let obj = {};
