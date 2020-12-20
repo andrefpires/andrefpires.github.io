@@ -8,24 +8,19 @@
 </head>
 <body>
   <div class="app">
-    <header id="pirncipal title">
-      <h1>Zoo Functions</h1>
-    </header>
-    <div id="animalSearchForId">
-      ID:
-      <input id="animalID" type="text" placeholder="Escreva a id aqui"/>
-      <button class="button-byId">Ok</button>
+    <div id="header">
+      <header id="headerPrincipalHeader">
+        <h1 id="principalTitle">Zoo Functions</h1>
+      </header>
     </div>
-    <div id="animalSearchForName">
+    <div>
       <label>
-        NAME:
-        <input id="animalName" type="text" placeholder="Escreva o nome aqui" />
+        Pesquisar por: 
+        <input type="checkbox" id="inputTeste">
+        <label for="inputTeste">Animais</label>
+        <input type="checkbox" id="inputTeste">
+        <label for="inputTeste">Funcionários</label>
       </label>
-      <label>
-        MINIMUM AGE:
-        <input id="animalAge" type="number" value="0" />
-      </label>
-      <button class="button-byName">Ok</button>
     </div>
   </div>
   <script src="zoo.js"></script>

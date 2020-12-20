@@ -9,12 +9,12 @@ body {
   background-color: grey;
 }
 
-input {
+#animalName, #animalId {
   width: 400px;
   height: 20px;
 }
 
-#animalSearchForName {
+#searchForNameAndAge {
   display: flex;
   flex-direction: column;
 }

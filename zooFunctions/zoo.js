@@ -336,18 +336,18 @@ const errorMessage = () => {
   error.innerText = 'Faltando valor';
   error.id = 'errorMessage';
   tagDivApp.appendChild(error);
-}
+};
 
 const removeElements = () => {
-  const verifyTagDivGeral = document.querySelector('#geral');
+  const verifyDivAnimalFound = document.querySelector('#animalFound');
   const errorMessage = document.querySelector('#errorMessage');
 
-  if (verifyTagDivGeral !== null) {
-    verifyTagDivGeral.remove();
+  if (verifyDivAnimalFound !== null) {
+    verifyDivAnimalFound.remove();
   } else if (errorMessage !== null) {
     errorMessage.remove();
   }
-}
+};
 
 const animalCount = (species) => {
   if (species === undefined) {
@@ -400,25 +400,25 @@ const createAnimal = (informations) => {
 };
 
 const notFound = () => {
-  const animalsInformations = document.querySelector('#geral');
+  const animalsInformations = document.querySelector('#animalFound');
   const messageNotFound = document.createElement('p');
   messageNotFound.innerText = 'Not Found';
   messageNotFound.id = 'notFound';
   animalsInformations.appendChild(messageNotFound);
-}
+};
 
 const newAnimal = (animalInformations) => {
   const tagDivApp = document.querySelector('.app');
-  const tagDivGeral = document.createElement('div');
-  tagDivGeral.id = 'geral';
+  const tagDivAnimalFound = document.createElement('div');
+  tagDivAnimalFound.id = 'animalFound';
   const tagDivAnimalInformations = document.createElement('div');
   tagDivAnimalInformations.id = 'animalInformations';
   const tagDivResidents = document.createElement('div');
   tagDivResidents.id = 'residents';
 
-  tagDivApp.appendChild(tagDivGeral);
-  tagDivGeral.appendChild(tagDivAnimalInformations);
-  tagDivGeral.appendChild(tagDivResidents);
+  tagDivApp.appendChild(tagDivAnimalFound);
+  tagDivAnimalFound.appendChild(tagDivAnimalInformations);
+  tagDivAnimalFound.appendChild(tagDivResidents);
 
   if (animalInformations === undefined) {
     notFound();
@@ -431,8 +431,8 @@ const newAnimal = (animalInformations) => {
 
 const animalsOlderThan = (event) => {
   removeElements();
-  let animal = event.target.parentNode.childNodes[1].firstChild.nextSibling.value;
-  const age = parseFloat(event.target.parentNode.childNodes[3].firstChild.nextSibling.value);
+  let animal = event.target.previousSibling.previousSibling.lastChild.value;
+  const age = parseFloat(event.target.previousSibling.lastChild.value);
   if (animal === '' || Number.isNaN(age)) {
     errorMessage();
   } else {
@@ -450,7 +450,7 @@ const animalsOlderThan = (event) => {
 const animalsByIds = (event) => {
   removeElements();
   let arrReturned = [];
-  const ids = [event.target.previousElementSibling.value];
+  const ids = [event.target.previousSibling.lastChild.value];
   if (ids[0] === '') {
     errorMessage();
   } else {
@@ -459,11 +459,76 @@ const animalsByIds = (event) => {
   }
 };
 
-const buttonByName = document.querySelector('.button-byName');
-buttonByName.addEventListener('click', animalsOlderThan);
+const createAnimalSearchArea = () => {
+  const inputTeste = document.querySelector('#inputTeste');
 
-const buttonById = document.querySelector('.button-byId');
-buttonById.addEventListener('click', animalsByIds);
+  if (inputTeste.checked === true) {
+    const divApp = document.querySelector('.app');
+    const divAnimalSearchArea = document.createElement('div');
+    divAnimalSearchArea.id = 'animalSearchArea';
+    divApp.appendChild(divAnimalSearchArea);
+
+    // SearchForId
+    const divSearchForId = document.createElement('div');
+    divSearchForId.id = 'searchForId';
+
+    const labelForId = document.createElement('label');
+    labelForId.innerText = 'ID:';
+    const inputForId = document.createElement('input');
+    inputForId.id = 'animalId';
+    inputForId.type = 'text';
+    inputForId.placeholder = 'Escreva a id aqui';
+
+    const buttonForId = document.createElement('button');
+    buttonForId.className = 'buttonForId';
+    buttonForId.innerText = 'Ok';
+
+    divAnimalSearchArea.appendChild(divSearchForId);
+    divSearchForId.appendChild(labelForId);
+    labelForId.appendChild(inputForId);
+    divSearchForId.appendChild(buttonForId);
+
+    // SearchForNameAndAge
+    const divSearchForNameAndAge = document.createElement('div');
+    divSearchForNameAndAge.id = 'searchForNameAndAge';
+    
+    const labelForName = document.createElement('label');
+    labelForName.innerText = 'Name:';
+    const inputForName = document.createElement('input');
+    inputForName.id = 'animalName';
+    inputForName.type = 'text';
+    inputForName.placeholder = 'Escreva a id aqui';
+
+    const labelForAge = document.createElement('label');
+    labelForAge.innerText = 'Age:';
+    const inputForAge = document.createElement('input');
+    inputForAge.id = 'animalAge';
+    inputForAge.type = 'number';
+    inputForAge.value = '0';
+
+    const buttonForNameAndAge = document.createElement('button');
+    buttonForNameAndAge.className = 'buttonForNameAndAge';
+    buttonForNameAndAge.innerText = 'Ok';
+
+    divAnimalSearchArea.appendChild(divSearchForNameAndAge);
+    divSearchForNameAndAge.appendChild(labelForName);
+    labelForName.appendChild(inputForName);
+    divSearchForNameAndAge.appendChild(labelForAge);
+    labelForAge.appendChild(inputForAge);
+    divSearchForNameAndAge.appendChild(buttonForNameAndAge);
+
+    buttonForNameAndAge.addEventListener('click', animalsOlderThan);
+    buttonForId.addEventListener('click', animalsByIds);
+  } else {
+    const divAnimalSearchArea = document.querySelector('#animalSearchArea');
+    const divAnimalFound = document.querySelector('#animalFound');
+    divAnimalSearchArea.remove();
+    divAnimalFound.remove();
+  }
+};
+
+const inputTeste = document.querySelector('#inputTeste');
+inputTeste.addEventListener('click', createAnimalSearchArea);
 
 const employeeByName = (employeeName) => {
   let obj = {};
