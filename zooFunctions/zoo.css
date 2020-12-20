@@ -27,7 +27,7 @@ h2 {
   color: pink;
 }
 
-#errorMessage, #notFound {
+#errorMessage, .notFound {
   color: red;
   font-size: 30px;
   background-color:white;
