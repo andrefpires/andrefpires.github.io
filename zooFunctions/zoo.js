@@ -460,9 +460,11 @@ const animalsByIds = (event) => {
 };
 
 const createAnimalSearchArea = () => {
-  const inputTeste = document.querySelector('#inputTeste');
+  const { checked } = document.querySelector('#inputForAnimals');
+  const inputForEmployees = document.querySelector('#inputForEmployees');
 
-  if (inputTeste.checked === true) {
+  if (checked) {
+    inputForEmployees.disabled = true;
     const divApp = document.querySelector('.app');
     const divAnimalSearchArea = document.createElement('div');
     divAnimalSearchArea.id = 'animalSearchArea';
@@ -519,7 +521,9 @@ const createAnimalSearchArea = () => {
 
     buttonForNameAndAge.addEventListener('click', animalsOlderThan);
     buttonForId.addEventListener('click', animalsByIds);
+
   } else {
+    inputForEmployees.disabled = false;
     const divAnimalSearchArea = document.querySelector('#animalSearchArea');
     const divAnimalFound = document.querySelector('#animalFound');
     divAnimalSearchArea.remove();
@@ -527,10 +531,50 @@ const createAnimalSearchArea = () => {
   }
 };
 
-const inputTeste = document.querySelector('#inputTeste');
-inputTeste.addEventListener('click', createAnimalSearchArea);
+const createEmployeesSearchArea = () => {
+  const { checked } = document.querySelector('#inputForEmployees');
+  const inputForAnimals = document.querySelector('#inputForAnimals');
 
-const employeeByName = (employeeName) => {
+  if(checked) {
+    inputForAnimals.disabled = true;
+    const divApp = document.querySelector('.app');
+    const divEmployeeSearchArea = document.createElement('div');
+    divEmployeeSearchArea.id = 'employeeSearchArea';
+    divApp.appendChild(divEmployeeSearchArea);
+
+    // employeeSearchArea
+    const divSearchForName = document.createElement('div');
+    divSearchForName.id = 'divSearchForName';
+    const labelForFirstOrLastName = document.createElement('label');
+    labelForFirstOrLastName.innerText = 'Name:';
+    const inputForFirstOrLastName = document.createElement('input');
+    inputForFirstOrLastName.id = 'employeeName';
+    inputForFirstOrLastName.placeholder = 'Escreva o nome ou sobrenome';
+    inputForFirstOrLastName.type = 'text';
+    const buttonForName = document.createElement('button');
+    buttonForName.id = 'buttonForName';
+    buttonForName.innerText = 'Ok';
+
+    divEmployeeSearchArea.appendChild(divSearchForName);
+    divSearchForName.appendChild(labelForFirstOrLastName);
+    labelForFirstOrLastName.appendChild(inputForFirstOrLastName);
+    buttonForName.addEventListener('click', employeeByName);
+    divSearchForName.appendChild(buttonForName);
+  } else {
+    inputForAnimals.disabled = false;
+    const employeeSearchArea = document.querySelector('#employeeSearchArea');
+    employeeSearchArea.remove();
+  }
+}
+
+const inputForAnimals = document.querySelector('#inputForAnimals');
+inputForAnimals.addEventListener('click', createAnimalSearchArea);
+
+const inputForEmployees = document.querySelector('#inputForEmployees');
+inputForEmployees.addEventListener('click', createEmployeesSearchArea);
+
+const employeeByName = (event) => {
+  const employeeName = event.target.previousSibling.lastChild.value;
   let obj = {};
   if (typeof employeeName === 'string') {
     const { employees: arr } = data;
