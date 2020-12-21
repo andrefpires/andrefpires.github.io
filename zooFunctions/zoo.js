@@ -385,16 +385,77 @@ const createResidents = ({ residents }) => {
   });
 };
 
+const employeesNamesAndAnimals = () => {
+  const listAnimals = {};
+  const listEmployees = {};
+  const { animals, employees } = data;
+
+  animals.forEach(({ name, id }) => {
+    listAnimals[name] = id;
+  });
+
+  employees.forEach(({ firstName, lastName, responsibleFor }) => {
+    const employee = `${firstName} ${lastName}`;
+    listEmployees[employee] = responsibleFor;
+  });
+
+  const entriesAnimals = Object.entries(listAnimals);
+  const entriesEmployees = Object.entries(listEmployees);
+
+  const employeesNamesAndAnimalsObject = entriesEmployees.reduce((acc, curr) => {
+    const animalsForEmployee = [];
+    curr[1].forEach((element) => {
+      entriesAnimals.forEach((arrAnimal) => {
+        if (arrAnimal[1] === element) {
+          animalsForEmployee.push(arrAnimal[0]);
+        }
+      });
+    });
+    acc[curr[0]] = animalsForEmployee;
+
+    return acc;
+  }, {});
+
+  return employeesNamesAndAnimalsObject;
+};
+
+const texts = (arr) => {
+  const text = arr.reduce((acc, animal, index) => {
+    if (index === arr.length - 2) {
+      acc += `${animal} `;
+    } else if (index === arr.length - 1) {
+      acc += `e ${animal}.`;
+    } else {
+      acc += `${animal}, `;
+    }
+    return acc;
+  },'');
+  return text;
+};
+
 const createAnimal = (informations) => {
   const tagDivAnimalInformations = document.querySelector('#animalInformations');
   const tagNames = ['h2', 'p', 'p'];
   const animalAtributes = ['name', 'location', 'popularity'];
+  const employeesAndAnimals = Object.entries(employeesNamesAndAnimals());
+  const employeesResponsables = document.createElement('p');
+
+  const responsables = [];
+  employeesAndAnimals.forEach(element => element[1].find(animal => {
+    if (animal === informations.name) {
+      responsables.push(element[0]);
+    }
+  }))
+
+  employeesResponsables.innerText = texts(responsables);
 
   tagNames.map((tagName, index) => {
     const newElement = document.createElement(tagName);
     newElement.innerText = informations[animalAtributes[index]];
     tagDivAnimalInformations.appendChild(newElement);
   })
+
+  tagDivAnimalInformations.appendChild(employeesResponsables);
 
   createResidents(informations);
 };
@@ -433,6 +494,7 @@ const animalsOlderThan = (event) => {
   removeAnimalElements();
   let animal = event.target.previousSibling.previousSibling.lastChild.value;
   const age = parseFloat(event.target.previousSibling.lastChild.value);
+
   if (animal === '' || Number.isNaN(age)) {
     errorMessage();
   } else {
@@ -447,16 +509,10 @@ const animalsOlderThan = (event) => {
   }
 };
 
-const animalsByIds = (event) => {
-  removeAnimalElements();
+const animalsByIds = ({ responsibleFor }) => {
   let arrReturned = [];
-  const ids = [event.target.previousSibling.lastChild.value];
-  if (ids[0] === '') {
-    errorMessage();
-  } else {
-    arrReturned = ids.map(id => data.animals.find(animal => animal.id === id));
-    arrReturned.forEach(animal => newAnimal(animal));
-  }
+  arrReturned = responsibleFor.map(id => data.animals.find(animal => animal.id === id));
+  return arrReturned;
 };
 
 const createAnimalSearchArea = () => {
@@ -469,26 +525,6 @@ const createAnimalSearchArea = () => {
     const divAnimalSearchArea = document.createElement('div');
     divAnimalSearchArea.id = 'animalSearchArea';
     divApp.appendChild(divAnimalSearchArea);
-
-    // SearchForId
-    const divSearchForId = document.createElement('div');
-    divSearchForId.id = 'searchForId';
-
-    const labelForId = document.createElement('label');
-    labelForId.innerText = 'ID:';
-    const inputForId = document.createElement('input');
-    inputForId.id = 'animalId';
-    inputForId.type = 'text';
-    inputForId.placeholder = 'Escreva a id aqui';
-
-    const buttonForId = document.createElement('button');
-    buttonForId.className = 'buttonForId';
-    buttonForId.innerText = 'Ok';
-
-    divAnimalSearchArea.appendChild(divSearchForId);
-    divSearchForId.appendChild(labelForId);
-    labelForId.appendChild(inputForId);
-    divSearchForId.appendChild(buttonForId);
 
     // SearchForNameAndAge
     const divSearchForNameAndAge = document.createElement('div');
@@ -520,7 +556,6 @@ const createAnimalSearchArea = () => {
     divSearchForNameAndAge.appendChild(buttonForNameAndAge);
 
     buttonForNameAndAge.addEventListener('click', animalsOlderThan);
-    buttonForId.addEventListener('click', animalsByIds);
 
   } else {
     const errorMessageValidation = document.querySelector('#errorMessage');
@@ -606,7 +641,7 @@ const employeeNotFound = () => {
   messageNotFound.innerText = 'Employee not found';
   messageNotFound.className = 'notFound';
   divEmployeeFound.appendChild(messageNotFound);
-}
+};
 
 const createEmployee = (newEmployee) => {
   if (newEmployee !== undefined) {
@@ -616,8 +651,15 @@ const createEmployee = (newEmployee) => {
     const employeeName = document.createElement('h3');
     employeeName.innerText = `${newEmployee.firstName} ${newEmployee.lastName}`;
 
+    const responsibleFor = animalsByIds(newEmployee);
+    const animalsResponsibleFor = responsibleFor.map(element => element.name);
+
+    const tagResponsibleFor = document.createElement('p');
+    tagResponsibleFor.innerText = texts(animalsResponsibleFor);
+
     divEmployeeFound.appendChild(divFound);
     divFound.appendChild(employeeName);
+    divFound.appendChild(tagResponsibleFor);
   } 
   else {
     employeeNotFound();
@@ -632,7 +674,9 @@ const employeeByName = (event) => {
     errorMessage();
   } else {
     const { employees: arr } = data;
-    obj = arr.find(({ firstName: a, lastName: b }) => a === employeeName || b === employeeName);
+    obj = arr.find(({ firstName: a, lastName: b }) => (
+      a === employeeName || b === employeeName || `${a} ${b}` === employeeName
+    ));
     createEmployee(obj);
   }
 };
@@ -745,40 +789,6 @@ const increasePrices = (percentage) => {
   newPrices.forEach((newPrice, i) => {
     data.prices[entries[i][0]] = decimalAdjust(newPrice);
   });
-};
-
-const employeesNamesAndAnimals = () => {
-  const listAnimals = {};
-  const listEmployees = {};
-  const { animals, employees } = data;
-
-  animals.forEach(({ name, id }) => {
-    listAnimals[name] = id;
-  });
-
-  employees.forEach(({ firstName, lastName, responsibleFor }) => {
-    const employee = `${firstName} ${lastName}`;
-    listEmployees[employee] = responsibleFor;
-  });
-
-  const entriesAnimals = Object.entries(listAnimals);
-  const entriesEmployees = Object.entries(listEmployees);
-
-  const employeesNamesAndAnimalsObject = entriesEmployees.reduce((acc, curr) => {
-    const animalsForEmployee = [];
-    curr[1].forEach((element) => {
-      entriesAnimals.forEach((arrAnimal) => {
-        if (arrAnimal[1] === element) {
-          animalsForEmployee.push(arrAnimal[0]);
-        }
-      });
-    });
-    acc[curr[0]] = animalsForEmployee;
-
-    return acc;
-  }, {});
-
-  return employeesNamesAndAnimalsObject;
 };
 
 const employeeCoverage = (idOrName) => {
