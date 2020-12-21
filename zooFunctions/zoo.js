@@ -433,6 +433,19 @@ const texts = (arr) => {
   return text;
 };
 
+const managers = (ids) => {
+  const nameOfManagers = data.employees.reduce((acc, { id: employeeId, firstName, lastName }) => {
+    ids.forEach((id) => {
+      if (employeeId === id) {
+        acc.push(`${firstName} ${lastName}`);
+      };
+    })
+    return acc;
+  }, []);
+
+  return nameOfManagers;
+};
+
 const createAnimal = (informations) => {
   const tagDivAnimalInformations = document.querySelector('#animalInformations');
   const tagNames = ['h2', 'p', 'p'];
@@ -499,7 +512,7 @@ const animalsOlderThan = (event) => {
     errorMessage();
   } else {
     const animalsResidents = {};
-    Object.assign(animalsResidents, data.animals.find(element => element.name === animal));
+    Object.assign(animalsResidents, data.animals.find(element => element.name === animal.toLowerCase()));
     if (animalsResidents.residents !== undefined) {
       const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
       animalsResidents.residents = animalsFound;
@@ -611,7 +624,7 @@ const createEmployeesSearchArea = () => {
       errorMessageValidation.remove();
     }
   }
-}
+};
 
 const inputForAnimals = document.querySelector('#inputForAnimals');
 inputForAnimals.addEventListener('click', createAnimalSearchArea);
@@ -657,9 +670,14 @@ const createEmployee = (newEmployee) => {
     const tagResponsibleFor = document.createElement('p');
     tagResponsibleFor.innerText = texts(animalsResponsibleFor);
 
+    const managersName = managers(newEmployee.managers);
+    const tagManagersName = document.createElement('p');
+    tagManagersName.innerText = texts(managersName);
+
     divEmployeeFound.appendChild(divFound);
     divFound.appendChild(employeeName);
     divFound.appendChild(tagResponsibleFor);
+    divFound.appendChild(tagManagersName);
   } 
   else {
     employeeNotFound();
