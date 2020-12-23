@@ -315,13 +315,13 @@ const data = {
     }
   ],
   hours: {
+    'Sunday': { open: 8, close: 20 },
+    'Monday': { open: 0, close: 0 },
     'Tuesday': { open: 8, close: 18 },
     'Wednesday': { open: 8, close: 18 },
     'Thursday': { open: 10, close: 20 },
     'Friday': { open: 10, close: 20 },
     'Saturday': { open: 8, close: 22 },
-    'Sunday': { open: 8, close: 20 },
-    'Monday': { open: 0, close: 0 }
   },
   prices: {
     'Adult': 49.99,
@@ -330,16 +330,19 @@ const data = {
   }
 };
 
-const errorMessage = () => { 
-  const tagDivApp = document.querySelector('.app');
+const errorMessage = (idName) => {
+  const nameForSelector = `#${idName}Found`
+  console.log(typeof nameForSelector)
+  const tagDivApp = document.querySelector(nameForSelector);
+  console.log(tagDivApp)
   const error = document.createElement('p');
-  error.innerText = 'Faltando valor';
+  error.innerText = 'É necessário fornecer mais informações para pesquisa';
   error.id = 'errorMessage';
   tagDivApp.appendChild(error);
 };
 
-const removeAnimalElements = () => {
-  const verifyDivAnimalFound = document.querySelector('#animalFound');
+const removeElements = (y) => {
+  const verifyDivAnimalFound = document.querySelector(`#${y}Found`);
   const errorMessage = document.querySelector('#errorMessage');
 
   if (verifyDivAnimalFound !== null) {
@@ -423,6 +426,8 @@ const texts = (arr) => {
   const text = arr.reduce((acc, animal, index) => {
     if (index === arr.length - 2) {
       acc += `${animal} `;
+    } else if (arr.length === 1) {
+      acc += `${animal}.`;
     } else if (index === arr.length - 1) {
       acc += `e ${animal}.`;
     } else {
@@ -473,16 +478,20 @@ const createAnimal = (informations) => {
   createResidents(informations);
 };
 
-const animalNotFound = () => {
-  const animalsInformations = document.querySelector('#animalFound');
+const notFound = (x) => {
+  const elementValidation = document.querySelector(`#${x}NotFound`);
+  const animalsInformations = document.querySelector(`#${x}Found`);
   const messageNotFound = document.createElement('p');
-  messageNotFound.innerText = 'Animal not found';
-  messageNotFound.className = 'notFound';
+  messageNotFound.innerText = 'O item não foi encontrado';
+  messageNotFound.id = `${x}NotFound`;
+  if (elementValidation) {
+    elementValidation.remove();
+  }
   animalsInformations.appendChild(messageNotFound);
 };
 
 const newAnimal = (animalInformations) => {
-  const tagDivApp = document.querySelector('.app');
+  const tagDivSearchAreas = document.querySelector('#searchAreas');
   const tagDivAnimalFound = document.createElement('div');
   tagDivAnimalFound.id = 'animalFound';
   const tagDivAnimalInformations = document.createElement('div');
@@ -490,29 +499,33 @@ const newAnimal = (animalInformations) => {
   const tagDivResidents = document.createElement('div');
   tagDivResidents.id = 'residents';
 
-  tagDivApp.appendChild(tagDivAnimalFound);
+  tagDivSearchAreas.appendChild(tagDivAnimalFound);
   tagDivAnimalFound.appendChild(tagDivAnimalInformations);
   tagDivAnimalFound.appendChild(tagDivResidents);
 
   if (animalInformations === undefined) {
-    animalNotFound();
+    notFound('animal');
   } else if (animalInformations.name === undefined) {
-    animalNotFound();
+    notFound('animal');
   } else {
     createAnimal(animalInformations);
   }
 };
 
 const animalsOlderThan = (event) => {
-  removeAnimalElements();
-  let animal = event.target.previousSibling.previousSibling.lastChild.value;
+  removeElements('animal');
+  let animalName = event.target.previousSibling.previousSibling.lastChild.value;
   const age = parseFloat(event.target.previousSibling.lastChild.value);
 
-  if (animal === '' || Number.isNaN(age)) {
+  if (animalName === '' || Number.isNaN(age)) {
     errorMessage();
   } else {
     const animalsResidents = {};
-    Object.assign(animalsResidents, data.animals.find(element => element.name === animal.toLowerCase()));
+    const { animals } = data;
+    Object.assign(animalsResidents, animals.find(animal => (
+      animal.name === animalName.toLowerCase()
+    )));
+
     if (animalsResidents.residents !== undefined) {
       const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
       animalsResidents.residents = animalsFound;
@@ -534,24 +547,24 @@ const createAnimalSearchArea = () => {
 
   if (checked) {
     inputForEmployees.disabled = true;
-    const divApp = document.querySelector('.app');
+    const divSearchAreas = document.querySelector('#searchAreas');
     const divAnimalSearchArea = document.createElement('div');
     divAnimalSearchArea.id = 'animalSearchArea';
-    divApp.appendChild(divAnimalSearchArea);
+    divSearchAreas.appendChild(divAnimalSearchArea);
 
     // SearchForNameAndAge
     const divSearchForNameAndAge = document.createElement('div');
     divSearchForNameAndAge.id = 'searchForNameAndAge';
     
     const labelForName = document.createElement('label');
-    labelForName.innerText = 'Name:';
+    labelForName.innerText = 'Nome:';
     const inputForName = document.createElement('input');
     inputForName.id = 'animalName';
     inputForName.type = 'text';
-    inputForName.placeholder = 'Escreva a id aqui';
+    inputForName.placeholder = 'Escreva o nome do animal aqui';
 
     const labelForAge = document.createElement('label');
-    labelForAge.innerText = 'Age:';
+    labelForAge.innerText = 'Idade mínima:';
     const inputForAge = document.createElement('input');
     inputForAge.id = 'animalAge';
     inputForAge.type = 'number';
@@ -583,26 +596,113 @@ const createAnimalSearchArea = () => {
   }
 };
 
+const inputForAnimals = document.querySelector('#inputForAnimals');
+inputForAnimals.addEventListener('click', createAnimalSearchArea);
+
+const isManager = (id) => {
+  const managersIds = data.employees.reduce((acc, { managers }) => {
+    acc.push(...managers);
+    return acc;
+  }, []);
+  const trueOrFalse = managersIds.some(managerId => managerId === id);
+  return trueOrFalse;
+};
+
+const employeeNotFound = () => {
+  const divEmployeeFound = document.querySelector('#employeeFound');
+  const messageNotFound = document.createElement('p');
+  messageNotFound.innerText = 'A pessoa não foi encontrada';
+  messageNotFound.className = 'notFound';
+  divEmployeeFound.appendChild(messageNotFound);
+};
+
+const createEmployee = (newEmployee) => {
+  if (newEmployee !== undefined) {
+    const managerOrNotManager = isManager(newEmployee.id);
+    const divEmployeeFound = document.querySelector('#employeeFound');
+    const divFound = document.createElement('div');
+    divFound.id = 'found';
+    const employeeFullName = `${newEmployee.firstName} ${newEmployee.lastName}`;
+    const employeeName = document.createElement('h3');
+    let textEmployeeName = '';
+    if (managerOrNotManager) {
+      textEmployeeName = `${employeeFullName} (Manager)`;
+    } else {
+      textEmployeeName = `${employeeFullName}`;
+    }
+
+    const responsibleFor = animalsByIds(newEmployee);
+    const animalsResponsibleFor = responsibleFor.map(element => element.name);
+
+    const tagResponsibleFor = document.createElement('p');
+    tagResponsibleFor.innerText = (
+      `Responsável por: ${texts(animalsResponsibleFor)}`
+    );
+
+    const managersName = managers(newEmployee.managers);
+    const tagManagersName = document.createElement('p');
+
+    if (newEmployee.firstName === 'Stephanie') {
+      textEmployeeName = `${employeeFullName} (Principal Manager)`;
+    } else {
+      tagManagersName.innerText = `Líderes: ${texts(managersName)}`;
+    }
+
+    employeeName.innerText = textEmployeeName;
+
+    divEmployeeFound.appendChild(divFound);
+    divFound.appendChild(employeeName);
+    divFound.appendChild(tagResponsibleFor);
+    divFound.appendChild(tagManagersName);
+  } 
+  else {
+    employeeNotFound();
+  }
+};
+
+const employeeByName = (event) => {
+  removeEmployeeElement();
+  const employeeName = event.target.previousSibling.lastChild;
+  let obj = {};
+  if (employeeName.value === '') {
+    errorMessage(employeeName.id);
+  } else {
+    const { employees: arr } = data;
+    obj = arr.find(({ firstName: a, lastName: b }) => (
+      a === employeeName.value || b === employeeName.value || `${a} ${b}` === employeeName.value
+    ));
+    createEmployee(obj);
+  }
+};
+
+// const createEmployee = (personalInfo, associatedWith) => {
+//   const obj = { ...personalInfo, ...associatedWith };
+//   return obj;
+// };
+
 const createEmployeesSearchArea = () => {
   const { checked } = document.querySelector('#inputForEmployees');
   const inputForAnimals = document.querySelector('#inputForAnimals');
 
   if(checked) {
     inputForAnimals.disabled = true;
-    const divApp = document.querySelector('.app');
+    const divSearchAreasSelected = document.querySelector('#searchAreas');
     const divEmployeeSearchArea = document.createElement('div');
     divEmployeeSearchArea.id = 'employeeSearchArea';
-    divApp.appendChild(divEmployeeSearchArea);
+    divSearchAreasSelected.appendChild(divEmployeeSearchArea);
 
     // employeeSearchArea
     const divSearchForName = document.createElement('div');
     divSearchForName.id = 'divSearchForName';
     const labelForFirstOrLastName = document.createElement('label');
-    labelForFirstOrLastName.innerText = 'Name:';
+    labelForFirstOrLastName.innerText = 'Nome:';
+    const divSearchElements = document.createElement('div');
+    divSearchElements.id = 'searchElements';
     const inputForFirstOrLastName = document.createElement('input');
-    inputForFirstOrLastName.id = 'employeeName';
-    inputForFirstOrLastName.placeholder = 'Escreva o nome ou sobrenome';
+    inputForFirstOrLastName.id = 'employee';
+    inputForFirstOrLastName.placeholder = 'Escreva o nome do funcionário';
     inputForFirstOrLastName.type = 'text';
+    inputForFirstOrLastName.size = 20;
     const buttonForName = document.createElement('button');
     buttonForName.id = 'buttonForName';
     buttonForName.innerText = 'Ok';
@@ -610,10 +710,11 @@ const createEmployeesSearchArea = () => {
     divEmployeeFound.id = 'employeeFound';
 
     divEmployeeSearchArea.appendChild(divSearchForName);
-    divSearchForName.appendChild(labelForFirstOrLastName);
+    divSearchForName.appendChild(divSearchElements);
+    divSearchElements.appendChild(labelForFirstOrLastName);
     labelForFirstOrLastName.appendChild(inputForFirstOrLastName);
     buttonForName.addEventListener('click', employeeByName);
-    divSearchForName.appendChild(buttonForName);
+    divSearchElements.appendChild(buttonForName);
     divSearchForName.appendChild(divEmployeeFound);
   } else {
     inputForAnimals.disabled = false;
@@ -625,9 +726,6 @@ const createEmployeesSearchArea = () => {
     }
   }
 };
-
-const inputForAnimals = document.querySelector('#inputForAnimals');
-inputForAnimals.addEventListener('click', createAnimalSearchArea);
 
 const inputForEmployees = document.querySelector('#inputForEmployees');
 inputForEmployees.addEventListener('click', createEmployeesSearchArea);
@@ -647,66 +745,6 @@ const removeEmployeeElement = () => {
     errorMessage.remove();
   }
 };
-
-const employeeNotFound = () => {
-  const divEmployeeFound = document.querySelector('#employeeFound');
-  const messageNotFound = document.createElement('p');
-  messageNotFound.innerText = 'Employee not found';
-  messageNotFound.className = 'notFound';
-  divEmployeeFound.appendChild(messageNotFound);
-};
-
-const createEmployee = (newEmployee) => {
-  if (newEmployee !== undefined) {
-    const divEmployeeFound = document.querySelector('#employeeFound');
-    const divFound = document.createElement('div');
-    divFound.id = 'found';
-    const employeeName = document.createElement('h3');
-    employeeName.innerText = `${newEmployee.firstName} ${newEmployee.lastName}`;
-
-    const responsibleFor = animalsByIds(newEmployee);
-    const animalsResponsibleFor = responsibleFor.map(element => element.name);
-
-    const tagResponsibleFor = document.createElement('p');
-    tagResponsibleFor.innerText = texts(animalsResponsibleFor);
-
-    const managersName = managers(newEmployee.managers);
-    const tagManagersName = document.createElement('p');
-    tagManagersName.innerText = texts(managersName);
-
-    divEmployeeFound.appendChild(divFound);
-    divFound.appendChild(employeeName);
-    divFound.appendChild(tagResponsibleFor);
-    divFound.appendChild(tagManagersName);
-  } 
-  else {
-    employeeNotFound();
-  }
-}
-
-const employeeByName = (event) => {
-  removeEmployeeElement();
-  const employeeName = event.target.previousSibling.lastChild.value;
-  let obj = {};
-  if (employeeName === '') {
-    errorMessage();
-  } else {
-    const { employees: arr } = data;
-    obj = arr.find(({ firstName: a, lastName: b }) => (
-      a === employeeName || b === employeeName || `${a} ${b}` === employeeName
-    ));
-    createEmployee(obj);
-  }
-};
-
-// const createEmployee = (personalInfo, associatedWith) => {
-//   const obj = { ...personalInfo, ...associatedWith };
-//   return obj;
-// };
-
-function isManager(id) {
-  // seu código aqui
-}
 
 const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []) => {
   const newEmployee = {
@@ -740,22 +778,72 @@ function animalMap(options) {
   // seu código aqui
 }
 
-const schedule = (dayName) => {
+const schedule = (event) => {
+  const dayName = event.target.previousElementSibling.value;
   const arrHours = Object.entries(data.hours);
   const weekSchedule = arrHours.reduce((acc, day) => {
-    acc[day[0]] = `Open from ${day[1].open}am until ${day[1].close - 12}pm`;
+    acc[day[0]] = `${day[1].open}am - ${day[1].close - 12}pm`;
     return acc;
   }, {});
   weekSchedule.Monday = 'CLOSED';
 
-  if (dayName === undefined) {
-    return weekSchedule;
+  if (dayName === '') {
+    tableCreator(weekSchedule);
+  } else {
+    const daySchedule = {};
+    daySchedule[dayName] = weekSchedule[dayName];
+    if (daySchedule[dayName] === undefined) {
+      notFound('schedule');
+    } else {
+      tableCreator(daySchedule);
+    }
   }
-
-  const daySchedule = {};
-  daySchedule[dayName] = weekSchedule[dayName];
-  return daySchedule;
 };
+
+const tableCreator = (daysAndHours) => {
+  removeElements('schedule');
+  const divSearchSchedule = document.querySelector('#searchSchedule');
+  const divScheduleFound = document.createElement('div');
+  divScheduleFound.id = 'scheduleFound';
+  const divTable = document.createElement('div');
+  divTable.id = 'table';
+  const tagTable = document.createElement('table');
+  const taghead = document.createElement('thead');
+  const tagtr = document.createElement('tr');
+  const thDay = document.createElement('th');
+  thDay.innerText = 'Dias';
+  const thHours = document.createElement('th');
+  thHours.innerText = 'Horários';
+  const tbody = document.createElement('tbody');
+
+  divSearchSchedule.appendChild(divScheduleFound);
+  divScheduleFound.appendChild(divTable);
+  divTable.appendChild(tagTable);
+  tagTable.appendChild(taghead);
+  taghead.appendChild(tagtr);
+  tagtr.appendChild(thDay);
+  tagtr.appendChild(thHours);
+  tagTable.appendChild(tbody);
+
+  let days = Object.keys(daysAndHours);
+
+  days.forEach((dayName) => {
+    const universalTr = document.createElement('tr');
+    const tdDay = document.createElement('td');
+    tdDay.innerText = dayName;
+
+    universalTr.appendChild(tdDay);
+
+    const tdHour = document.createElement('td');
+    tdHour.innerText = daysAndHours[dayName];
+
+    universalTr.appendChild(tdHour);
+    tbody.appendChild(universalTr);
+  })
+};
+
+const buttonSchedule = document.querySelector('#buttonSchedule');
+buttonSchedule.addEventListener('click', schedule);
 
 const oldestFromFirstSpecies = (idEmployee) => {
   const { animals, employees } = data;

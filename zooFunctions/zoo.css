@@ -14,9 +14,16 @@ body {
   height: 20px;
 }
 
-#searchForNameAndAge {
+#searchForNameAndAge,
+#found,
+#animalFound,
+#animalInformations,
+#residents,
+.newResident,
+#scheduleFound {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 button {
@@ -27,8 +34,73 @@ h2 {
   color: pink;
 }
 
-#errorMessage, .notFound {
+#errorMessage,
+#scheduleNotFound,
+#animalNotFound {
   color: red;
-  font-size: 30px;
+  font-size: 12px;
   background-color:white;
 }
+
+table {
+  text-align: center;
+  border: 1px solid white;
+}
+
+th {
+  color: black;
+  background-color: lime;
+  border: 1px solid white;
+  padding: 0 40px 0 40px;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+#animalSearchArea, #employeeSearchArea, #table {
+  margin: 20px 0 20px 0;
+}
+
+#watherDivision {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#searchAreas {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 200px;
+}
+
+#inputsSearchAreas, #searchElements {
+  border: 1px;
+  padding: 0 100px 0 100px;
+}
+
+#employee {
+  border: 1px solid white;
+}
+
+#searchSchedule{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 80px;
+}
+
+#employeeFound {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* #searchSchedule {
+  margin: 0 80px 0 40px;
+} */

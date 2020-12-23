@@ -13,16 +13,68 @@
         <h1 id="principalTitle">Zoo Functions</h1>
       </header>
     </div>
-    <div>
-      <label>
-        Pesquisar por: 
-        <input type="checkbox" id="inputForAnimals">
-        <label for="inputForAnimals">Animais</label>
-        <input type="checkbox" id="inputForEmployees">
-        <label for="inputForEmployees">Funcionários</label>
-      </label>
+    <div id="watherDivision">
+      <div id="searchSchedule">
+        <div id="schedule">
+          <label>
+            Dia:
+            <input type="text" id="inputForDayName" placeholder="Escreva o dia que deseja pesquisar" size="24">
+            <button id="buttonSchedule">Ok</button>
+          </label>
+        </div>
+        <div id="scheduleFound">
+          <div id="table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dias</th>
+                  <th>Horários</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sunday</td>
+                  <td>8am - 8pm</td>
+                </tr>
+                <tr>
+                  <td>Monday</td>
+                  <td>CLOSED</td>
+                </tr>
+                <tr>
+                  <td>Tuesday</td>
+                  <td>8am - 6pm</td>
+                </tr>
+                <tr>
+                  <td>Wednesday</td>
+                  <td>8am - 6pm</td>
+                </tr>
+                <tr>
+                  <td>Thursday</td>
+                  <td>10am - 8pm</td>
+                </tr>
+                <tr>
+                  <td>Friday</td>
+                  <td>10am - 8pm</td>
+                </tr>
+                <tr>
+                  <td>Saturday</td>
+                  <td>8am - 10pm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+        <div id="searchAreas">
+          <label id="inputsSearchAreas">
+            Pesquisar por: 
+            <input type="checkbox" id="inputForAnimals">
+            <label for="inputForAnimals">Animais</label>
+            <input type="checkbox" id="inputForEmployees">
+            <label for="inputForEmployees">Funcionários</label>
+          </label>
+        </div>
     </div>
-  </div>
   <script src="zoo.js"></script>
 </body>
 </html>
