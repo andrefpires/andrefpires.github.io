@@ -36,9 +36,11 @@ h2 {
 
 #errorMessage,
 #scheduleNotFound,
+#animalNotFound,
+#employeeNotFound,
 #animalNotFound {
   color: red;
-  font-size: 12px;
+  font-size: 20px;
   background-color:white;
 }
 
