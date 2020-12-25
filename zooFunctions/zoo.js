@@ -339,17 +339,6 @@ const errorMessage = (idName) => {
   tagPError.appendChild(error);
 };
 
-const removeScheduleElement = (y) => {
-  const verifyDivAnimalFound = document.querySelector(`#${y}Found`);
-  const errorMessage = document.querySelector('#errorMessage');
-
-  if (verifyDivAnimalFound !== null) {
-    verifyDivAnimalFound.remove();
-  } else if (errorMessage !== null) {
-    errorMessage.remove();
-  }
-};
-
 const animalCount = (species) => {
   if (species === undefined) {
     const obj = {};
@@ -487,19 +476,8 @@ const createAnimal = (informations) => {
   createResidents(informations);
 };
 
-const notFoundSchedule = (x) => {
-  const elementValidation = document.querySelector(`#${x}NotFound`);
-  const animalsInformations = document.querySelector(`#${x}Found`);
-  const messageNotFound = document.createElement('p');
-  messageNotFound.innerText = 'O item não foi encontrado';
-  messageNotFound.id = `${x}NotFound`;
-  if (elementValidation) {
-    elementValidation.remove();
-  }
-  animalsInformations.appendChild(messageNotFound);
-};
-
 const notFound = (x) => {
+  removeElements(x);
   const elementValidation = document.querySelector(`#${x}NotFound`);
   const divAnimalSearchResults = document.querySelector(`#${x}SearchResults`);
   const messageNotFound = document.createElement('p');
@@ -607,9 +585,7 @@ const createAnimalSearchArea = () => {
     }
     inputForEmployees.disabled = false;
     const divAnimalSearchArea = document.querySelector('#animalSearchArea');
-    const divAnimalFound = document.querySelector('#animalFound');
     divAnimalSearchArea.remove();
-    divAnimalFound.remove();
   }
 };
 
@@ -802,7 +778,7 @@ const schedule = (event) => {
     const daySchedule = {};
     daySchedule[dayName] = weekSchedule[dayName];
     if (daySchedule[dayName] === undefined) {
-      notFoundSchedule('schedule');
+      notFound('schedule');
     } else {
       tableCreator(daySchedule);
     }
@@ -810,12 +786,11 @@ const schedule = (event) => {
 };
 
 const tableCreator = (daysAndHours) => {
-  removeScheduleElement('schedule');
+  removeElements('schedule');
   const divSearchSchedule = document.querySelector('#searchSchedule');
-  const divScheduleFound = document.createElement('div');
-  divScheduleFound.id = 'scheduleFound';
+  const divScheduleResults = document.querySelector('#scheduleSearchResults');
   const divTable = document.createElement('div');
-  divTable.id = 'table';
+  divTable.id = 'scheduleFound';
   const tagTable = document.createElement('table');
   const taghead = document.createElement('thead');
   const tagtr = document.createElement('tr');
@@ -825,8 +800,8 @@ const tableCreator = (daysAndHours) => {
   thHours.innerText = 'Horários';
   const tbody = document.createElement('tbody');
 
-  divSearchSchedule.appendChild(divScheduleFound);
-  divScheduleFound.appendChild(divTable);
+  divSearchSchedule.appendChild(divScheduleResults);
+  divScheduleResults.appendChild(divTable);
   divTable.appendChild(tagTable);
   tagTable.appendChild(taghead);
   taghead.appendChild(tagtr);
