@@ -13,7 +13,7 @@
         <h1 id="principalTitle">Zoo Functions</h1>
       </header>
     </div>
-    <div id="watherDivision">
+    <div id="searchAreas">
       <div id="searchSchedule">
         <div id="searchScheduleElements">
           <label>
@@ -26,6 +26,11 @@
           <div id="scheduleFound">
             <table>
               <thead>
+                <tr>
+                  <th colspan="2">
+                    Horários de funcionamento
+                  </th>
+                </tr>
                 <tr>
                   <th>Dias</th>
                   <th>Horários</th>
@@ -65,15 +70,59 @@
           </div>
         </div>
       </div>
-        <div id="searchAreas">
-          <label id="inputsSearchAreas">
-            Pesquisar por: 
-            <input type="checkbox" id="inputForAnimals">
-            <label for="inputForAnimals">Animais</label>
-            <input type="checkbox" id="inputForEmployees">
-            <label for="inputForEmployees">Funcionários</label>
-          </label>
+      <div id="entrysSearchResults">
+        <div id="pricesTable">
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">Tickets</th>
+              </tr>
+              <tr>
+                <th>Categorias</th>
+                <th>Preços</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Adult</td>
+                <td>R$ 49.99</td>
+              </tr>
+              <tr>
+                <td>Senior</td>
+                <td>R$ 24.99</td>
+              </tr>
+              <tr>
+                <td>Child</td>
+                <td>R$ 20.99</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <div id="inputsEntrysCalculator">
+          <label class="entrysElements">
+            Adult
+            <input type="number" value="0" min="0" max="5" id="adult">
+          </label>
+          <label class="entrysElements">
+            Senior
+            <input type="number" value="0" min="0" max="5" id="senior">
+          </label>
+          <label class="entrysElements">
+            Child
+            <input type="number" value="0" min="0" max="5" id="child">
+          </label>
+          <button class="entrysElements" id='buttonEntryCalculator'>Ok</button>
+        </div>
+      </div>
+      <div id="animalAndEmployeeSearchAreas">
+        <label id="inputsSearchAreas">
+          Pesquisar por: 
+          <input type="checkbox" id="inputForAnimals">
+          <label for="inputForAnimals">Animais</label>
+          <input type="checkbox" id="inputForEmployees">
+          <label for="inputForEmployees">Funcionários</label>
+        </label>
+      </div>
     </div>
   <script src="zoo.js"></script>
 </body>

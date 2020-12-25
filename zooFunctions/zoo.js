@@ -534,10 +534,10 @@ const createAnimalSearchArea = () => {
 
   if (checked) {
     inputForEmployees.disabled = true;
-    const divSearchAreas = document.querySelector('#searchAreas');
+    const divAnimalAndEmployeeSearchAreas = document.querySelector('#animalAndEmployeeSearchAreas');
     const divAnimalSearchArea = document.createElement('div');
     divAnimalSearchArea.id = 'animalSearchArea';
-    divSearchAreas.appendChild(divAnimalSearchArea);
+    divAnimalAndEmployeeSearchAreas.appendChild(divAnimalSearchArea);
 
     // SearchForNameAndAge
     const divSearchForNameAndAge = document.createElement('div');
@@ -671,7 +671,7 @@ const createEmployeesSearchArea = () => {
 
   if(checked) {
     inputForAnimals.disabled = true;
-    const divSearchAreasSelected = document.querySelector('#searchAreas');
+    const divSearchAreasSelected = document.querySelector('#animalAndEmployeeSearchAreas');
     const divEmployeeSearchArea = document.createElement('div');
     divEmployeeSearchArea.id = 'employeeSearchArea';
     divSearchAreasSelected.appendChild(divEmployeeSearchArea);
@@ -743,7 +743,14 @@ const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []
   return data.employees.push(newEmployee);
 };
 
-const entryCalculator = (entrants) => {
+const entryCalculator = () => {
+  removeElements('entrys');
+  const entrants = {
+    Adult: parseFloat(document.querySelector('#adult').value),
+    Senior: parseFloat(document.querySelector('#senior').value),
+    Child: parseFloat(document.querySelector('#child').value),
+  };
+
   let sum = 0;
 
   if (typeof entrants === 'object') {
@@ -756,8 +763,19 @@ const entryCalculator = (entrants) => {
     });
   }
 
-  return sum;
+  if (sum) {
+    const divEntrysSeaarchResults = document.querySelector('#entrysSearchResults');
+    const pForSum = document.createElement('p');
+    pForSum.innerText = `TOTAL: R$ ${sum}`;
+    pForSum.id = 'entrysFound';
+    divEntrysSeaarchResults.appendChild(pForSum);
+  } else {
+    errorMessage('entrys');
+  }
 };
+
+const buttonEntryCalculator = document.querySelector('#buttonEntryCalculator');
+buttonEntryCalculator.addEventListener('click', entryCalculator);
 
 function animalMap(options) {
   // seu código aqui
@@ -773,19 +791,19 @@ const schedule = (event) => {
   weekSchedule.Monday = 'CLOSED';
 
   if (dayName === '') {
-    tableCreator(weekSchedule);
+    scheduleTableCreator(weekSchedule);
   } else {
     const daySchedule = {};
     daySchedule[dayName] = weekSchedule[dayName];
     if (daySchedule[dayName] === undefined) {
       notFound('schedule');
     } else {
-      tableCreator(daySchedule);
+      scheduleTableCreator(daySchedule);
     }
   }
 };
 
-const tableCreator = (daysAndHours) => {
+const scheduleTableCreator = (daysAndHours) => {
   removeElements('schedule');
   const divSearchSchedule = document.querySelector('#searchSchedule');
   const divScheduleResults = document.querySelector('#scheduleSearchResults');
@@ -793,6 +811,10 @@ const tableCreator = (daysAndHours) => {
   divTable.id = 'scheduleFound';
   const tagTable = document.createElement('table');
   const taghead = document.createElement('thead');
+  const trPrincipalTitle = document.createElement('tr');
+  const thScheduleTitle = document.createElement('th');
+  thScheduleTitle.innerText = 'Horários de funcionamento';
+  thScheduleTitle.colSpan = "2";
   const tagtr = document.createElement('tr');
   const thDay = document.createElement('th');
   thDay.innerText = 'Dias';
@@ -804,6 +826,8 @@ const tableCreator = (daysAndHours) => {
   divScheduleResults.appendChild(divTable);
   divTable.appendChild(tagTable);
   tagTable.appendChild(taghead);
+  taghead.appendChild(trPrincipalTitle);
+  trPrincipalTitle.appendChild(thScheduleTitle);
   taghead.appendChild(tagtr);
   tagtr.appendChild(thDay);
   tagtr.appendChild(thHours);
