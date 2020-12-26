@@ -321,13 +321,32 @@ const data = {
 };
 
 const errorMessage = (sectionName) => {
-  const nameForSelector = `#${sectionName}SearchResults`
-  const tagPError = document.querySelector(nameForSelector);
-  const error = document.createElement('p');
-  error.innerText = 'Campo necessário para busca vazio';
-  error.id = 'errorMessage';
-  tagPError.appendChild(error);
-};
+  const idName = `#${sectionName}SearchResults`;
+  const parentElement = document.querySelector(idName);
+  const errorTextElement = document.createElement('p');
+  errorTextElement.innerText = (
+    'Campo necessário para busca vazio'
+  );
+  errorTextElement.id = 'errorMessage';
+  parentElement.appendChild(errorTextElement);
+}; // OK
+
+const textModeler = (words) => {
+  const text = words.reduce((acc, animal, index) => {
+    if (index === words.length - 2) {
+      acc += `${animal} `;
+    } else if (words.length === 1) {
+      acc += `${animal}.`;
+    } else if (index === words.length - 1) {
+      acc += `e ${animal}.`;
+    } else {
+      acc += `${animal}, `;
+    }
+    return acc;
+  },'');
+
+  return text;
+}; // OK
 
 const animalCount = (species) => {
   if (species === undefined) {
@@ -340,32 +359,74 @@ const animalCount = (species) => {
   return residents;
 };
 
-const createResidents = ({ residents }) => {
-  const tagh3 = document.createElement('h3');
-  tagh3.innerText = `Residents: ${residents.length}`;
-  const tagDivResidents = document.querySelector('#animalResidents');
-  tagDivResidents.appendChild(tagh3);
+const createAnimalResidents = ({ residents }) => {
+  const titleResidentsElement = document.createElement('h3');
+  titleResidentsElement.innerText = `Residents: ${residents.length}`;
+  const divForResidents = document.querySelector('#animalResidents');
+  divForResidents.appendChild(titleResidentsElement);
 
   residents.forEach((resident) => {
     const newResident = document.createElement('div');
     newResident.className = 'newResident';
-    const tagForName = document.createElement('h4');
-    const tagForSex = document.createElement('p');
-    const tagForAge = document.createElement('p');
+    const residentName = document.createElement('h4');
+    const residentSex = document.createElement('p');
+    const residentAge = document.createElement('p');
 
-    tagForName.innerText = resident.name;
-    tagForSex.innerText = resident.sex;
-    tagForAge.innerText = resident.age;
+    residentName.innerText = resident.name;
+    residentSex.innerText = resident.sex;
+    residentAge.innerText = resident.age;
 
-    newResident.appendChild(tagForName);
-    newResident.appendChild(tagForSex);
-    newResident.appendChild(tagForAge);
+    newResident.appendChild(residentName);
+    newResident.appendChild(residentSex);
+    newResident.appendChild(residentAge);
 
-    tagDivResidents.appendChild(newResident);
+    divForResidents.appendChild(newResident);
   });
-};
+}; // OK
 
-const employeesNamesAndAnimals = () => {
+const createAnimalInformations = (informations) => {
+  const animalSearchResults = document.querySelector('#animalSearchResults');
+  const animalFound = document.createElement('div');
+  animalFound.id = 'animalFound';
+  const animalInformations = document.createElement('div');
+  animalInformations.id = 'animalInformations';
+  const animalResidents = document.createElement('div');
+  animalResidents.id = 'animalResidents';
+
+  animalSearchResults.appendChild(animalFound);
+  animalFound.appendChild(animalInformations);
+  animalFound.appendChild(animalResidents);
+
+  const tagNames = ['h2', 'p', 'p'];
+  const animalAtributes = ['name', 'location', 'popularity'];
+  const animalsAndYourResponsibles = Object.entries(responsibleFor());
+  const employeesResponsibles = document.createElement('p');
+
+  const responsibles = [];
+
+  animalsAndYourResponsibles
+  .forEach(employeeAndAnimals => employeeAndAnimals[1]
+    .find(animal => {
+      if (animal === informations.name) {
+        responsibles.push(employeeAndAnimals[0]);
+      }
+    })
+  );
+
+  employeesResponsibles.innerText = textModeler(responsibles);
+
+  tagNames.map((tagName, index) => {
+    const newElement = document.createElement(tagName);
+    newElement.innerText = informations[animalAtributes[index]];
+    animalInformations.appendChild(newElement);
+  });
+
+  animalInformations.appendChild(employeesResponsibles);
+
+  createAnimalResidents(informations);
+}; // OK
+
+const responsibleFor = () => {
   const listAnimals = {};
   const listEmployees = {};
   const { animals, employees } = data;
@@ -382,7 +443,7 @@ const employeesNamesAndAnimals = () => {
   const entriesAnimals = Object.entries(listAnimals);
   const entriesEmployees = Object.entries(listEmployees);
 
-  const employeesNamesAndAnimalsObject = entriesEmployees.reduce((acc, curr) => {
+  const responsibleForObject = entriesEmployees.reduce((acc, curr) => {
     const animalsForEmployee = [];
     curr[1].forEach((element) => {
       entriesAnimals.forEach((arrAnimal) => {
@@ -396,23 +457,7 @@ const employeesNamesAndAnimals = () => {
     return acc;
   }, {});
 
-  return employeesNamesAndAnimalsObject;
-};
-
-const texts = (arr) => {
-  const text = arr.reduce((acc, animal, index) => {
-    if (index === arr.length - 2) {
-      acc += `${animal} `;
-    } else if (arr.length === 1) {
-      acc += `${animal}.`;
-    } else if (index === arr.length - 1) {
-      acc += `e ${animal}.`;
-    } else {
-      acc += `${animal}, `;
-    }
-    return acc;
-  },'');
-  return text;
+  return responsibleForObject;
 };
 
 const managers = (ids) => {
@@ -426,44 +471,6 @@ const managers = (ids) => {
   }, []);
 
   return nameOfManagers;
-};
-
-const createAnimal = (informations) => {
-  const tagDivAnimalSearchResults = document.querySelector('#animalSearchResults');
-  const tagDivAnimalFound = document.createElement('div');
-  tagDivAnimalFound.id = 'animalFound';
-  const tagDivAnimalInformations = document.createElement('div');
-  tagDivAnimalInformations.id = 'animalInformations';
-  const tagDivAnimalResidents = document.createElement('div');
-  tagDivAnimalResidents.id = 'animalResidents';
-
-  tagDivAnimalSearchResults.appendChild(tagDivAnimalFound);
-  tagDivAnimalFound.appendChild(tagDivAnimalInformations);
-  tagDivAnimalFound.appendChild(tagDivAnimalResidents);
-
-  const tagNames = ['h2', 'p', 'p'];
-  const animalAtributes = ['name', 'location', 'popularity'];
-  const employeesAndAnimals = Object.entries(employeesNamesAndAnimals());
-  const employeesResponsables = document.createElement('p');
-
-  const responsables = [];
-  employeesAndAnimals.forEach(element => element[1].find(animal => {
-    if (animal === informations.name) {
-      responsables.push(element[0]);
-    }
-  }))
-
-  employeesResponsables.innerText = texts(responsables);
-
-  tagNames.map((tagName, index) => {
-    const newElement = document.createElement(tagName);
-    newElement.innerText = informations[animalAtributes[index]];
-    tagDivAnimalInformations.appendChild(newElement);
-  })
-
-  tagDivAnimalInformations.appendChild(employeesResponsables);
-
-  createResidents(informations);
 };
 
 const notFound = (x) => {
@@ -485,7 +492,7 @@ const newAnimal = (animalInformations) => {
   } else if (animalInformations.name === undefined) {
     notFound('animal');
   } else {
-    createAnimal(animalInformations);
+    createAnimalInformations(animalInformations);
   }
 };
 
@@ -605,7 +612,7 @@ const createEmployee = (newEmployee) => {
 
     const tagResponsibleFor = document.createElement('p');
     tagResponsibleFor.innerText = (
-      `Responsável por: ${texts(animalsResponsibleFor)}`
+      `Responsável por: ${textModeler(animalsResponsibleFor)}`
     );
 
     const managersName = managers(newEmployee.managers);
@@ -614,7 +621,7 @@ const createEmployee = (newEmployee) => {
     if (newEmployee.firstName === 'Stephanie') {
       textEmployeeName = `${employeeFullName} (Principal Manager)`;
     } else {
-      tagManagersName.innerText = `Líderes: ${texts(managersName)}`;
+      tagManagersName.innerText = `Líderes: ${textModeler(managersName)}`;
     }
 
     employeeName.innerText = textEmployeeName;
@@ -860,7 +867,7 @@ const increasePrices = (percentage) => {
 };
 
 const employeeCoverage = (idOrName) => {
-  const finalObject = employeesNamesAndAnimals();
+  const finalObject = responsibleFor();
   if (idOrName !== undefined) {
     const a = idOrName;
     const employee = data.employees
