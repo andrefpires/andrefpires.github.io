@@ -320,6 +320,36 @@ const data = {
   }
 };
 
+// geral functions
+const removeElements = (sectionName) => {
+  const { found, notFound, errorMessage } = {
+    found: document.querySelector(`#${sectionName}Found`),
+    notFound: document.querySelector(`#${sectionName}NotFound`),
+    errorMessage: document.querySelector('#errorMessage'),
+  };
+
+  if (found) {
+    found.remove();
+  } else if (notFound) {
+    notFound.remove();
+  } else if (errorMessage) {
+    errorMessage.remove();
+  }
+}; // OK
+
+const notFound = (sectionName) => {
+  removeElements(sectionName);
+  const checkElement = document.querySelector(`#${sectionName}NotFound`);
+  const animalSearchResults = document.querySelector(`#${sectionName}SearchResults`);
+  const messageNotFound = document.createElement('p');
+  messageNotFound.innerText = 'O item não foi encontrado';
+  messageNotFound.id = `${sectionName}NotFound`;
+  if (checkElement) {
+    checkElement.remove();
+  }
+  animalSearchResults.appendChild(messageNotFound);
+}; // OK
+
 const errorMessage = (sectionName) => {
   const idName = `#${sectionName}SearchResults`;
   const parentElement = document.querySelector(idName);
@@ -348,17 +378,7 @@ const textModeler = (words) => {
   return text;
 }; // OK
 
-const animalCount = (species) => {
-  if (species === undefined) {
-    const obj = {};
-    data.animals.forEach((animal) => { obj[animal.name] = animal.residents.length; });
-    return obj;
-  }
-
-  const residents = data.animals.find(animal => animal.name === species).residents.length;
-  return residents;
-};
-
+// animals functions
 const createAnimalResidents = ({ residents }) => {
   const titleResidentsElement = document.createElement('h3');
   titleResidentsElement.innerText = `Residents: ${residents.length}`;
@@ -399,7 +419,7 @@ const createAnimalInformations = (informations) => {
 
   const tagNames = ['h2', 'p', 'p'];
   const animalAtributes = ['name', 'location', 'popularity'];
-  const animalsAndYourResponsibles = Object.entries(responsibleFor());
+  const animalsAndYourResponsibles = Object.entries(responsibleListCreator());
   const employeesResponsibles = document.createElement('p');
 
   const responsibles = [];
@@ -426,7 +446,64 @@ const createAnimalInformations = (informations) => {
   createAnimalResidents(informations);
 }; // OK
 
-const responsibleFor = () => {
+const newAnimal = (animalInformations) => {
+  if (animalInformations === undefined) {
+    notFound('animal');
+  } else if (animalInformations.name === undefined) {
+    notFound('animal');
+  } else {
+    createAnimalInformations(animalInformations);
+  }
+}; // OK
+
+const animalsOlderThan = (event) => {
+  removeElements('animal');
+  let animalNameInput = event.target.previousSibling.previousSibling.lastChild.value;
+  const animalAgeInput = parseFloat(event.target.previousSibling.lastChild.value);
+
+  if (animalNameInput === '' || Number.isNaN(animalAgeInput)) {
+    errorMessage('animal');
+  } else {
+    const animalObject = {};
+    const { animals } = data;
+    Object.assign(animalObject, animals.find(animal => (
+      animal.name === animalNameInput.toLowerCase()
+    )));
+
+    if (animalObject.residents !== undefined) {
+      const animalsFound = (
+        animalObject.residents.filter(({ age }) => age >= animalAgeInput)
+      );
+      animalObject.residents = animalsFound;
+    }
+
+    newAnimal(animalObject);
+  }
+}; //Ok
+
+const animalsByIds = ({ responsibleFor }) => {
+  let arrayOfAnimalObjects = [];
+  arrayOfAnimalObjects = responsibleFor.map(id => data.animals.find(animal => animal.id === id));
+  return arrayOfAnimalObjects;
+}; // OK
+
+function animalMap(options) {
+  // seu código aqui
+}
+
+const animalCount = (species) => {
+  if (species === undefined) {
+    const obj = {};
+    data.animals.forEach((animal) => { obj[animal.name] = animal.residents.length; });
+    return obj;
+  }
+
+  const residents = data.animals.find(animal => animal.name === species).residents.length;
+  return residents;
+};
+
+// employees functions
+const responsibleListCreator = () => {
   const listAnimals = {};
   const listEmployees = {};
   const { animals, employees } = data;
@@ -436,29 +513,31 @@ const responsibleFor = () => {
   });
 
   employees.forEach(({ firstName, lastName, responsibleFor }) => {
-    const employee = `${firstName} ${lastName}`;
-    listEmployees[employee] = responsibleFor;
+    const employeeFullName = `${firstName} ${lastName}`;
+    listEmployees[employeeFullName] = responsibleFor;
   });
 
   const entriesAnimals = Object.entries(listAnimals);
   const entriesEmployees = Object.entries(listEmployees);
 
-  const responsibleForObject = entriesEmployees.reduce((acc, curr) => {
-    const animalsForEmployee = [];
-    curr[1].forEach((element) => {
-      entriesAnimals.forEach((arrAnimal) => {
-        if (arrAnimal[1] === element) {
-          animalsForEmployee.push(arrAnimal[0]);
-        }
+  const responsibleForList = (
+    entriesEmployees.reduce((accumulator, currentValue) => {
+      const animalsForEmployee = [];
+      currentValue[1].forEach((element) => {
+        entriesAnimals.forEach((arrAnimal) => {
+          if (arrAnimal[1] === element) {
+            animalsForEmployee.push(arrAnimal[0]);
+          }
+        });
       });
-    });
-    acc[curr[0]] = animalsForEmployee;
+      accumulator[currentValue[0]] = animalsForEmployee;
 
-    return acc;
-  }, {});
+      return accumulator;
+    }, {})
+  );
 
-  return responsibleForObject;
-};
+  return responsibleForList;
+}; // OK
 
 const managers = (ids) => {
   const nameOfManagers = data.employees.reduce((acc, { id: employeeId, firstName, lastName }) => {
@@ -471,58 +550,6 @@ const managers = (ids) => {
   }, []);
 
   return nameOfManagers;
-};
-
-const notFound = (x) => {
-  removeElements(x);
-  const elementValidation = document.querySelector(`#${x}NotFound`);
-  const divAnimalSearchResults = document.querySelector(`#${x}SearchResults`);
-  const messageNotFound = document.createElement('p');
-  messageNotFound.innerText = 'O item não foi encontrado';
-  messageNotFound.id = `${x}NotFound`;
-  if (elementValidation) {
-    elementValidation.remove();
-  }
-  divAnimalSearchResults.appendChild(messageNotFound);
-};
-
-const newAnimal = (animalInformations) => {
-  if (animalInformations === undefined) {
-    notFound('animal');
-  } else if (animalInformations.name === undefined) {
-    notFound('animal');
-  } else {
-    createAnimalInformations(animalInformations);
-  }
-};
-
-const animalsOlderThan = (event) => {
-  removeElements('animal');
-  let animalName = event.target.previousSibling.previousSibling.lastChild.value;
-  const age = parseFloat(event.target.previousSibling.lastChild.value);
-
-  if (animalName === '' || Number.isNaN(age)) {
-    errorMessage('animal');
-  } else {
-    const animalsResidents = {};
-    const { animals } = data;
-    Object.assign(animalsResidents, animals.find(animal => (
-      animal.name === animalName.toLowerCase()
-    )));
-
-    if (animalsResidents.residents !== undefined) {
-      const animalsFound = animalsResidents.residents.filter(resident => resident.age >= age);
-      animalsResidents.residents = animalsFound;
-    }
-
-    newAnimal(animalsResidents);
-  }
-};
-
-const animalsByIds = ({ responsibleFor }) => {
-  let arrReturned = [];
-  arrReturned = responsibleFor.map(id => data.animals.find(animal => animal.id === id));
-  return arrReturned;
 };
 
 const createAnimalSearchArea = () => {
@@ -696,22 +723,6 @@ const createEmployeesSearchArea = () => {
 const inputForEmployees = document.querySelector('#inputForEmployees');
 inputForEmployees.addEventListener('click', createEmployeesSearchArea);
 
-const removeElements = (name) => {
-  const { found, notFound, errorMessage } = {
-    found: document.querySelector(`#${name}Found`),
-    notFound: document.querySelector(`#${name}NotFound`),
-    errorMessage: document.querySelector('#errorMessage'),
-  };
-
-  if (found) {
-    found.remove();
-  } else if (notFound) {
-    notFound.remove();
-  } else if (errorMessage) {
-    errorMessage.remove();
-  }
-};
-
 const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []) => {
   const newEmployee = {
     id,
@@ -757,10 +768,6 @@ const entryCalculator = () => {
 
 const buttonSearchPrices = document.querySelector('#buttonSearchPrices');
 buttonSearchPrices.addEventListener('click', entryCalculator);
-
-function animalMap(options) {
-  // seu código aqui
-}
 
 const schedule = () => {
   const dayName = document.querySelector('#scheduleInput').value;
@@ -867,7 +874,7 @@ const increasePrices = (percentage) => {
 };
 
 const employeeCoverage = (idOrName) => {
-  const finalObject = responsibleFor();
+  const finalObject = responsibleListCreator();
   if (idOrName !== undefined) {
     const a = idOrName;
     const employee = data.employees
