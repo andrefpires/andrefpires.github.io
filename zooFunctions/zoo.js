@@ -1,13 +1,3 @@
-/*
-eslint no-unused-vars: [
-  "error",
-  {
-    "args": "none",
-    "vars": "local",
-    "varsIgnorePattern": "data"
-  }
-]
-*/
 const data = {
   animals: [
     {
@@ -330,11 +320,11 @@ const data = {
   }
 };
 
-const errorMessage = (idName) => {
-  const nameForSelector = `#${idName}SearchResults`
+const errorMessage = (sectionName) => {
+  const nameForSelector = `#${sectionName}SearchResults`
   const tagPError = document.querySelector(nameForSelector);
   const error = document.createElement('p');
-  error.innerText = 'É necessário fornecer mais informações para pesquisa';
+  error.innerText = 'Campo necessário para busca vazio';
   error.id = 'errorMessage';
   tagPError.appendChild(error);
 };
@@ -353,7 +343,7 @@ const animalCount = (species) => {
 const createResidents = ({ residents }) => {
   const tagh3 = document.createElement('h3');
   tagh3.innerText = `Residents: ${residents.length}`;
-  const tagDivResidents = document.querySelector('#residents');
+  const tagDivResidents = document.querySelector('#animalResidents');
   tagDivResidents.appendChild(tagh3);
 
   residents.forEach((resident) => {
@@ -444,12 +434,12 @@ const createAnimal = (informations) => {
   tagDivAnimalFound.id = 'animalFound';
   const tagDivAnimalInformations = document.createElement('div');
   tagDivAnimalInformations.id = 'animalInformations';
-  const tagDivResidents = document.createElement('div');
-  tagDivResidents.id = 'residents';
+  const tagDivAnimalResidents = document.createElement('div');
+  tagDivAnimalResidents.id = 'animalResidents';
 
   tagDivAnimalSearchResults.appendChild(tagDivAnimalFound);
   tagDivAnimalFound.appendChild(tagDivAnimalInformations);
-  tagDivAnimalFound.appendChild(tagDivResidents);
+  tagDivAnimalFound.appendChild(tagDivAnimalResidents);
 
   const tagNames = ['h2', 'p', 'p'];
   const animalAtributes = ['name', 'location', 'popularity'];
@@ -534,17 +524,14 @@ const createAnimalSearchArea = () => {
 
   if (checked) {
     inputForEmployees.disabled = true;
-    const divAnimalAndEmployeeSearchAreas = document.querySelector('#animalAndEmployeeSearchAreas');
-    const divAnimalSearchArea = document.createElement('div');
-    divAnimalSearchArea.id = 'animalSearchArea';
-    divAnimalAndEmployeeSearchAreas.appendChild(divAnimalSearchArea);
+    const divBodyPage = document.querySelector('#bodyPage');
+    const sectionAnimal = document.createElement('section');
+    sectionAnimal.id = 'animal';
+    divBodyPage.appendChild(sectionAnimal);
 
-    // SearchForNameAndAge
-    const divSearchForNameAndAge = document.createElement('div');
-    divSearchForNameAndAge.id = 'searchForNameAndAge';
-
-    const divSearchAnimalsElements = document.createElement('div');
-    divSearchAnimalsElements.id = 'searchAnimalsElements';
+    // animals
+    const divAnimalSearchElements = document.createElement('div');
+    divAnimalSearchElements.id = 'animalSearchElements';
 
     const divAnimalSearchResults = document.createElement('div');
     divAnimalSearchResults.id = 'animalSearchResults';
@@ -552,31 +539,28 @@ const createAnimalSearchArea = () => {
     const labelForName = document.createElement('label');
     labelForName.innerText = 'Nome:';
     const inputForName = document.createElement('input');
-    inputForName.id = 'animalName';
     inputForName.type = 'text';
     inputForName.placeholder = 'Escreva o nome do animal aqui';
 
     const labelForAge = document.createElement('label');
     labelForAge.innerText = 'Idade mínima:';
     const inputForAge = document.createElement('input');
-    inputForAge.id = 'animalAge';
     inputForAge.type = 'number';
     inputForAge.value = '0';
 
-    const buttonForNameAndAge = document.createElement('button');
-    buttonForNameAndAge.className = 'buttonForNameAndAge';
-    buttonForNameAndAge.innerText = 'Ok';
+    const buttonSearchAnimal = document.createElement('button');
+    buttonSearchAnimal.className = 'buttonSearchAnimal';
+    buttonSearchAnimal.innerText = 'Ok';
 
-    divAnimalSearchArea.appendChild(divSearchForNameAndAge);
-    divSearchForNameAndAge.appendChild(divSearchAnimalsElements);
-    divSearchAnimalsElements.appendChild(labelForName);
+    sectionAnimal.appendChild(divAnimalSearchElements);
+    sectionAnimal.appendChild(divAnimalSearchResults);
+    divAnimalSearchElements.appendChild(labelForName);
     labelForName.appendChild(inputForName);
-    divSearchAnimalsElements.appendChild(labelForAge);
+    divAnimalSearchElements.appendChild(labelForAge);
     labelForAge.appendChild(inputForAge);
-    divSearchAnimalsElements.appendChild(buttonForNameAndAge);
-    divSearchForNameAndAge.appendChild(divAnimalSearchResults);
+    divAnimalSearchElements.appendChild(buttonSearchAnimal);
 
-    buttonForNameAndAge.addEventListener('click', animalsOlderThan);
+    buttonSearchAnimal.addEventListener('click', animalsOlderThan);
 
   } else {
     const errorMessageValidation = document.querySelector('#errorMessage');
@@ -584,8 +568,8 @@ const createAnimalSearchArea = () => {
       errorMessageValidation.remove();
     }
     inputForEmployees.disabled = false;
-    const divAnimalSearchArea = document.querySelector('#animalSearchArea');
-    divAnimalSearchArea.remove();
+    const sectionAnimal = document.querySelector('#animal');
+    sectionAnimal.remove();
   }
 };
 
@@ -660,52 +644,42 @@ const employeeByName = (event) => {
   }
 };
 
-// const createEmployee = (personalInfo, associatedWith) => {
-//   const obj = { ...personalInfo, ...associatedWith };
-//   return obj;
-// };
-
 const createEmployeesSearchArea = () => {
   const { checked } = document.querySelector('#inputForEmployees');
   const inputForAnimals = document.querySelector('#inputForAnimals');
 
   if(checked) {
     inputForAnimals.disabled = true;
-    const divSearchAreasSelected = document.querySelector('#animalAndEmployeeSearchAreas');
-    const divEmployeeSearchArea = document.createElement('div');
-    divEmployeeSearchArea.id = 'employeeSearchArea';
-    divSearchAreasSelected.appendChild(divEmployeeSearchArea);
+    const divSearchAreasSelected = document.querySelector('#bodyPage');
+    const sectionEmployee = document.createElement('section');
+    sectionEmployee.id = 'employee';
+    divSearchAreasSelected.appendChild(sectionEmployee);
 
-    // employeeSearchArea
-    const divSearchForName = document.createElement('div');
-    divSearchForName.id = 'divSearchForName';
+    // employee
     const labelForFirstOrLastName = document.createElement('label');
     labelForFirstOrLastName.innerText = 'Nome:';
-    const divSearchElements = document.createElement('div');
-    divSearchElements.id = 'searchElements';
+    const divEmployeeSearchElements = document.createElement('div');
+    divEmployeeSearchElements.id = 'employeeSearchElements';
     const inputForFirstOrLastName = document.createElement('input');
-    inputForFirstOrLastName.id = 'employee';
     inputForFirstOrLastName.placeholder = 'Escreva o nome do funcionário';
     inputForFirstOrLastName.type = 'text';
-    inputForFirstOrLastName.size = 20;
-    const buttonForName = document.createElement('button');
-    buttonForName.id = 'buttonForName';
-    buttonForName.innerText = 'Ok';
+    const buttonSearchEmployee = document.createElement('button');
+    buttonSearchEmployee.id = 'buttonSearchEmployee';
+    buttonSearchEmployee.innerText = 'Ok';
     const divEmployeeSearchResults = document.createElement('div');
     divEmployeeSearchResults.id = 'employeeSearchResults';
 
-    divEmployeeSearchArea.appendChild(divSearchForName);
-    divSearchForName.appendChild(divSearchElements);
-    divSearchElements.appendChild(labelForFirstOrLastName);
+    sectionEmployee.appendChild(divEmployeeSearchElements);
+    divEmployeeSearchElements.appendChild(labelForFirstOrLastName);
     labelForFirstOrLastName.appendChild(inputForFirstOrLastName);
-    buttonForName.addEventListener('click', employeeByName);
-    divSearchElements.appendChild(buttonForName);
-    divSearchForName.appendChild(divEmployeeSearchResults);
+    buttonSearchEmployee.addEventListener('click', employeeByName);
+    divEmployeeSearchElements.appendChild(buttonSearchEmployee);
+    sectionEmployee.appendChild(divEmployeeSearchResults);
   } else {
     inputForAnimals.disabled = false;
     const errorMessageValidation = document.querySelector('#errorMessage');
-    const employeeSearchArea = document.querySelector('#employeeSearchArea');
-    employeeSearchArea.remove();
+    const sectionEmployee = document.querySelector('#employee');
+    sectionEmployee.remove();
     if (errorMessageValidation) {
       errorMessageValidation.remove();
     }
@@ -763,26 +737,26 @@ const entryCalculator = () => {
     });
   }
 
-  if (sum) {
-    const divEntrysSeaarchResults = document.querySelector('#entrysSearchResults');
+  if (sum || sum === 0) {
+    const divEntrysSeaarchResults = document.querySelector('#pricesSearchResults');
     const pForSum = document.createElement('p');
     pForSum.innerText = `TOTAL: R$ ${sum}`;
     pForSum.id = 'entrysFound';
     divEntrysSeaarchResults.appendChild(pForSum);
   } else {
-    errorMessage('entrys');
+    errorMessage('prices');
   }
 };
 
-const buttonEntryCalculator = document.querySelector('#buttonEntryCalculator');
-buttonEntryCalculator.addEventListener('click', entryCalculator);
+const buttonSearchPrices = document.querySelector('#buttonSearchPrices');
+buttonSearchPrices.addEventListener('click', entryCalculator);
 
 function animalMap(options) {
   // seu código aqui
 }
 
-const schedule = (event) => {
-  const dayName = event.target.previousElementSibling.value;
+const schedule = () => {
+  const dayName = document.querySelector('#scheduleInput').value;
   const arrHours = Object.entries(data.hours);
   const weekSchedule = arrHours.reduce((acc, day) => {
     acc[day[0]] = `${day[1].open}am - ${day[1].close - 12}pm`;
@@ -805,33 +779,11 @@ const schedule = (event) => {
 
 const scheduleTableCreator = (daysAndHours) => {
   removeElements('schedule');
-  const divSearchSchedule = document.querySelector('#searchSchedule');
-  const divScheduleResults = document.querySelector('#scheduleSearchResults');
-  const divTable = document.createElement('div');
-  divTable.id = 'scheduleFound';
-  const tagTable = document.createElement('table');
-  const taghead = document.createElement('thead');
-  const trPrincipalTitle = document.createElement('tr');
-  const thScheduleTitle = document.createElement('th');
-  thScheduleTitle.innerText = 'Horários de funcionamento';
-  thScheduleTitle.colSpan = "2";
-  const tagtr = document.createElement('tr');
-  const thDay = document.createElement('th');
-  thDay.innerText = 'Dias';
-  const thHours = document.createElement('th');
-  thHours.innerText = 'Horários';
+  const scheduleTable = document.querySelector('#scheduleSearchResults');
   const tbody = document.createElement('tbody');
+  tbody.id = 'scheduleFound';
 
-  divSearchSchedule.appendChild(divScheduleResults);
-  divScheduleResults.appendChild(divTable);
-  divTable.appendChild(tagTable);
-  tagTable.appendChild(taghead);
-  taghead.appendChild(trPrincipalTitle);
-  trPrincipalTitle.appendChild(thScheduleTitle);
-  taghead.appendChild(tagtr);
-  tagtr.appendChild(thDay);
-  tagtr.appendChild(thHours);
-  tagTable.appendChild(tbody);
+  scheduleTable.appendChild(tbody);
 
   let days = Object.keys(daysAndHours);
 
@@ -850,8 +802,10 @@ const scheduleTableCreator = (daysAndHours) => {
   })
 };
 
-const buttonSchedule = document.querySelector('#buttonSchedule');
-buttonSchedule.addEventListener('click', schedule);
+schedule();
+
+const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
+scheduleSearchButton.addEventListener('click', schedule);
 
 const oldestFromFirstSpecies = (idEmployee) => {
   const { animals, employees } = data;

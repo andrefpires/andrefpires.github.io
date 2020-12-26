@@ -1,4 +1,4 @@
-.app {
+#pageElements {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,18 +9,12 @@ body {
   background-color: grey;
 }
 
-#animalName, #animalId {
-  width: 400px;
-  height: 20px;
-}
-
 #searchForNameAndAge,
 #found,
 #animalFound,
 #animalInformations,
 #residents,
 .newResident,
-#scheduleFound,
 #searchAnimalsElements,
 #inputsEntrysCalculator {
   display: flex;
@@ -28,11 +22,7 @@ body {
   align-items: center;
 }
 
-.entrysElements {
-  margin-top: 5px;
-}
-
-#entrysSearchResults {
+#prices {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,12 +70,7 @@ td {
   margin: 10px 0 10px 0;
 }
 
-#inputsSearchAreas {
-  border: 1px;
-  padding: 0 100px 0 100px;
-}
-
-#searchAreas {
+#bodyPage {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -96,19 +81,26 @@ input[type="number"] {
   width:30px;
 }
 
-#animalAndEmployeeSearchAreas {
+input[type="text"] {
+  width: 250px;
+  height: 20px;
+}
+
+#searchAreaSelector {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   margin-top: 20px;
+  border: 1px;
+  padding: 0 100px 0 100px;
 }
 
 #employee {
   border: 1px solid white;
 }
 
-#searchSchedule{
+#schedule{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -122,7 +114,3 @@ input[type="number"] {
   flex-wrap: wrap;
   align-items: center;
 }
-
-/* #searchSchedule {
-  margin: 0 80px 0 40px;
-} */

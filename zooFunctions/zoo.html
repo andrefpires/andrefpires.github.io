@@ -7,123 +7,88 @@
   <link rel="stylesheet" type="text/css" href="zoo.css" />
 </head>
 <body>
-  <div class="app">
-    <div id="header">
-      <header id="headerPrincipalHeader">
-        <h1 id="principalTitle">Zoo Functions</h1>
-      </header>
-    </div>
-    <div id="searchAreas">
-      <div id="searchSchedule">
-        <div id="searchScheduleElements">
+  <div id="pageElements">
+    <header id="headPage">
+      <h1>Zoo Functions</h1>
+    </header>
+    <div id="bodyPage">
+      <section id="schedule">
+        <div id="scheduleSearchElements">
           <label>
             Dia:
-            <input type="text" id="inputForDayName" placeholder="Escreva o dia que deseja pesquisar" size="24">
-            <button id="buttonSchedule">Ok</button>
+            <input type="text" placeholder="Escreva o dia que deseja pesquisar" size="24" id="scheduleInput">
+            <button id="scheduleSearchButton">Ok</button>
           </label>
         </div>
-        <div id="scheduleSearchResults">
-          <div id="scheduleFound">
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="2">
-                    Horários de funcionamento
-                  </th>
-                </tr>
-                <tr>
-                  <th>Dias</th>
-                  <th>Horários</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Sunday</td>
-                  <td>8am - 8pm</td>
-                </tr>
-                <tr>
-                  <td>Monday</td>
-                  <td>CLOSED</td>
-                </tr>
-                <tr>
-                  <td>Tuesday</td>
-                  <td>8am - 6pm</td>
-                </tr>
-                <tr>
-                  <td>Wednesday</td>
-                  <td>8am - 6pm</td>
-                </tr>
-                <tr>
-                  <td>Thursday</td>
-                  <td>10am - 8pm</td>
-                </tr>
-                <tr>
-                  <td>Friday</td>
-                  <td>10am - 8pm</td>
-                </tr>
-                <tr>
-                  <td>Saturday</td>
-                  <td>8am - 10pm</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div id="entrysSearchResults">
-        <div id="pricesTable">
-          <table>
+          <table id="scheduleSearchResults">
             <thead>
               <tr>
-                <th colspan="2">Tickets</th>
+                <th colspan="2">
+                  Horários de funcionamento
+                </th>
               </tr>
               <tr>
-                <th>Categorias</th>
-                <th>Preços</th>
+                <th>Dias</th>
+                <th>Horários</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Adult</td>
-                <td>R$ 49.99</td>
-              </tr>
-              <tr>
-                <td>Senior</td>
-                <td>R$ 24.99</td>
-              </tr>
-              <tr>
-                <td>Child</td>
-                <td>R$ 20.99</td>
-              </tr>
-            </tbody>
           </table>
-        </div>
-        <div id="inputsEntrysCalculator">
-          <label class="entrysElements">
+      </section>
+      <section id="prices">
+        <table id="pricesTable">
+          <thead>
+            <tr>
+              <th colspan="2">Tickets</th>
+            </tr>
+            <tr>
+              <th>Categorias</th>
+              <th>Preços</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Adult</td>
+              <td>R$ 49.99</td>
+            </tr>
+            <tr>
+              <td>Senior</td>
+              <td>R$ 24.99</td>
+            </tr>
+            <tr>
+              <td>Child</td>
+              <td>R$ 20.99</td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="pricesSearchElements">
+          <label>
             Adult
             <input type="number" value="0" min="0" max="5" id="adult">
           </label>
-          <label class="entrysElements">
-            Senior
+          <label>
+            + Senior
             <input type="number" value="0" min="0" max="5" id="senior">
           </label>
-          <label class="entrysElements">
-            Child
+          <label>
+            + Child
             <input type="number" value="0" min="0" max="5" id="child">
           </label>
-          <button class="entrysElements" id='buttonEntryCalculator'>Ok</button>
+          <button id='buttonSearchPrices'>Ok</button>
         </div>
-      </div>
-      <div id="animalAndEmployeeSearchAreas">
-        <label id="inputsSearchAreas">
-          Pesquisar por: 
+        <div id="pricesSearchResults">
+        </div>
+      </section>
+      <section id="searchAreaSelector">
+        <label>
+          Pesquisar por:
           <input type="checkbox" id="inputForAnimals">
           <label for="inputForAnimals">Animais</label>
           <input type="checkbox" id="inputForEmployees">
           <label for="inputForEmployees">Funcionários</label>
         </label>
-      </div>
+      </section>
     </div>
+  </div>
   <script src="zoo.js"></script>
 </body>
 </html>
