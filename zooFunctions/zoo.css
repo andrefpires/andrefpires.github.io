@@ -1,116 +1,72 @@
-#pageElements {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-}
-
 body {
+  color: white;
   background-color: grey;
 }
 
-#searchForNameAndAge,
-#found,
-#animalFound,
-#animalInformations,
-#residents,
-.newResident,
-#searchAnimalsElements,
-#inputsEntrysCalculator {
+#headPage {
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+#bodyPage {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+#firstBlock {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding-top: 20px;
+  height: 60vh;
+}
+
+#secondBlock {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+#schedule,
+#prices,
+#searchAreaSelector {
+  display: flex;
+  flex-flow: column wrap;
   align-items: center;
 }
 
-#prices {
+#animal, #employee {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+#scheduleSearchResults {
   border: 1px;
-  padding: 26px 100px 0 350px;
-}
-
-button {
-  height: 25px;
-}
-
-h2 {
-  color: pink;
-}
-
-#errorMessage,
-#scheduleNotFound,
-#animalNotFound,
-#employeeNotFound,
-#animalNotFound {
-  color: red;
-  font-size: 20px;
-  background-color:white;
-}
-
-table {
+  padding: 20px 0 0 0;
   text-align: center;
-  border: 1px solid white;
+}
+
+#pricesTable {
+  border: 1px;
+  padding: 0 0 20px 0;
+  text-align: center;
 }
 
 th {
   color: black;
   background-color: lime;
-  border: 1px solid white;
-  padding: 0 40px 0 40px;
+  padding: 2px 40px 2px 40px;
 }
 
 td {
   padding: 10px;
-  border: 1px solid white;
+  background-color: black;
 }
 
-#animalSearchArea, #employeeSearchArea, #table {
-  margin: 10px 0 10px 0;
-}
-
-#bodyPage {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-input[type="number"] {
-  width:30px;
-}
-
-input[type="text"] {
-  width: 250px;
-  height: 20px;
-}
-
-#searchAreaSelector {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 20px;
-  border: 1px;
-  padding: 0 100px 0 100px;
-}
-
-#employee {
-  border: 1px solid white;
-}
-
-#schedule{
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-left: 80px;
-}
-
-#employeeFound {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
+#pricesFound {
+  background-color: white;
+  color: green;
+  font-size: 22px;
 }
