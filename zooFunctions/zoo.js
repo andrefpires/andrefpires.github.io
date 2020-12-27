@@ -352,8 +352,19 @@ const notFound = (sectionName) => {
   removeElements(sectionName);
   const checkElement = document.querySelector(`#${sectionName}NotFound`);
   const animalSearchResults = document.querySelector(`#${sectionName}SearchResults`);
-  const messageNotFound = document.createElement('p');
-  messageNotFound.innerText = 'O item não foi encontrado';
+  let messageNotFound = null;
+  if (sectionName === 'schedule') {
+    messageNotFound = document.createElement('tbody');
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 2;
+    td.innerText = 'O item não foi encontrado';
+    tr.appendChild(td);
+    messageNotFound.appendChild(tr);
+  } else {
+    messageNotFound = document.createElement('p');
+    messageNotFound.innerText = 'O item não foi encontrado';
+  }
   messageNotFound.id = `${sectionName}NotFound`;
   if (checkElement) {
     checkElement.remove();
