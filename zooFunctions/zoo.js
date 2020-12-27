@@ -328,7 +328,7 @@ const errorMessage = (sectionName) => {
   errorTextElement.innerText = (
     'Campo necessário para busca vazio'
   );
-  errorTextElement.id = 'errorMessage';
+  errorTextElement.id = `${sectionName}errorMessage`;
   parentElement.appendChild(errorTextElement);
 }; // OK
 
@@ -336,7 +336,7 @@ const removeElements = (sectionName) => {
   const { found, notFound, errorMessage } = {
     found: document.querySelector(`#${sectionName}Found`),
     notFound: document.querySelector(`#${sectionName}NotFound`),
-    errorMessage: document.querySelector('#errorMessage'),
+    errorMessage: document.querySelector(`#${sectionName}errorMessage`),
   };
 
   if (found) {
@@ -854,6 +854,7 @@ const scheduleTableCreator = (daysAndHours) => {
 
   days.forEach((dayName) => {
     const tr = document.createElement('tr');
+    tr.className = 'left';
     const tdDay = document.createElement('td');
     tdDay.innerText = dayName;
 
