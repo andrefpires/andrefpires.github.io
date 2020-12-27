@@ -320,7 +320,18 @@ const data = {
   }
 };
 
-// geral functions
+// GERAL FUNCTIONS
+const errorMessage = (sectionName) => {
+  const idName = `#${sectionName}SearchResults`;
+  const parentElement = document.querySelector(idName);
+  const errorTextElement = document.createElement('p');
+  errorTextElement.innerText = (
+    'Campo necessário para busca vazio'
+  );
+  errorTextElement.id = 'errorMessage';
+  parentElement.appendChild(errorTextElement);
+}; // OK
+
 const removeElements = (sectionName) => {
   const { found, notFound, errorMessage } = {
     found: document.querySelector(`#${sectionName}Found`),
@@ -350,17 +361,6 @@ const notFound = (sectionName) => {
   animalSearchResults.appendChild(messageNotFound);
 }; // OK
 
-const errorMessage = (sectionName) => {
-  const idName = `#${sectionName}SearchResults`;
-  const parentElement = document.querySelector(idName);
-  const errorTextElement = document.createElement('p');
-  errorTextElement.innerText = (
-    'Campo necessário para busca vazio'
-  );
-  errorTextElement.id = 'errorMessage';
-  parentElement.appendChild(errorTextElement);
-}; // OK
-
 const textModeler = (words) => {
   const text = words.reduce((acc, animal, index) => {
     if (index === words.length - 2) {
@@ -378,7 +378,7 @@ const textModeler = (words) => {
   return text;
 }; // OK
 
-// animals functions
+// ANIMALS FUNCTIONS
 const createAnimalResidents = ({ residents }) => {
   const titleResidentsElement = document.createElement('h3');
   titleResidentsElement.innerText = `Residents: ${residents.length}`;
@@ -403,6 +403,42 @@ const createAnimalResidents = ({ residents }) => {
     divForResidents.appendChild(newResident);
   });
 }; // OK
+
+const responsibleListCreator = () => {
+  const listAnimals = {};
+  const listEmployees = {};
+  const { animals, employees } = data;
+
+  animals.forEach(({ name, id }) => {
+    listAnimals[name] = id;
+  });
+
+  employees.forEach(({ firstName, lastName, responsibleFor }) => {
+    const employeeFullName = `${firstName} ${lastName}`;
+    listEmployees[employeeFullName] = responsibleFor;
+  });
+
+  const entriesAnimals = Object.entries(listAnimals);
+  const entriesEmployees = Object.entries(listEmployees);
+
+  const responsibleForList = (
+    entriesEmployees.reduce((accumulator, currentValue) => {
+      const animalsForEmployee = [];
+      currentValue[1].forEach((element) => {
+        entriesAnimals.forEach((arrAnimal) => {
+          if (arrAnimal[1] === element) {
+            animalsForEmployee.push(arrAnimal[0]);
+          }
+        });
+      });
+      accumulator[currentValue[0]] = animalsForEmployee;
+
+      return accumulator;
+    }, {})
+  );
+
+  return responsibleForList;
+}; // OK employee function
 
 const createAnimalInformations = (informations) => {
   const animalSearchResults = document.querySelector('#animalSearchResults');
@@ -487,6 +523,61 @@ const animalsByIds = ({ responsibleFor }) => {
   return arrayOfAnimalObjects;
 }; // OK
 
+const createAnimalSearchArea = () => {
+  const { checked } = document.querySelector('#inputForAnimals');
+  const employeeSearchArea = document.querySelector('#inputForEmployees');
+
+  if (checked) {
+    employeeSearchArea.disabled = true;
+    const bodyPage = document.querySelector('#bodyPage');
+    const sectionAnimal = document.createElement('section');
+    sectionAnimal.id = 'animal';
+    bodyPage.appendChild(sectionAnimal);
+
+    // animals
+    const animalSearchElements = document.createElement('div');
+    animalSearchElements.id = 'animalSearchElements';
+
+    const animalSearchResults = document.createElement('div');
+    animalSearchResults.id = 'animalSearchResults';
+    
+    const animalName = document.createElement('label');
+    animalName.innerText = 'Nome:';
+    const animalNameInput = document.createElement('input');
+    animalNameInput.type = 'text';
+    animalNameInput.placeholder = 'Escreva o nome do animal';
+
+    const animalAge = document.createElement('label');
+    animalAge.innerText = 'Idade mínima:';
+    const animalAgeInput = document.createElement('input');
+    animalAgeInput.type = 'number';
+    animalAgeInput.value = '0';
+
+    const buttonSearchAnimal = document.createElement('button');
+    buttonSearchAnimal.className = 'buttonSearchAnimal';
+    buttonSearchAnimal.innerText = 'Ok';
+
+    sectionAnimal.appendChild(animalSearchElements);
+    sectionAnimal.appendChild(animalSearchResults);
+    animalSearchElements.appendChild(animalName);
+    animalName.appendChild(animalNameInput);
+    animalSearchElements.appendChild(animalAge);
+    animalAge.appendChild(animalAgeInput);
+    animalSearchElements.appendChild(buttonSearchAnimal);
+
+    buttonSearchAnimal.addEventListener('click', animalsOlderThan);
+
+  } else {
+    const errorMessageValidation = document.querySelector('#errorMessage');
+    if (errorMessageValidation) {
+      errorMessageValidation.remove();
+    }
+    employeeSearchArea.disabled = false;
+    const sectionAnimal = document.querySelector('#animal');
+    sectionAnimal.remove();
+  }
+}; // OK
+
 function animalMap(options) {
   // seu código aqui
 }
@@ -501,325 +592,6 @@ const animalCount = (species) => {
   const residents = data.animals.find(animal => animal.name === species).residents.length;
   return residents;
 };
-
-// employees functions
-const responsibleListCreator = () => {
-  const listAnimals = {};
-  const listEmployees = {};
-  const { animals, employees } = data;
-
-  animals.forEach(({ name, id }) => {
-    listAnimals[name] = id;
-  });
-
-  employees.forEach(({ firstName, lastName, responsibleFor }) => {
-    const employeeFullName = `${firstName} ${lastName}`;
-    listEmployees[employeeFullName] = responsibleFor;
-  });
-
-  const entriesAnimals = Object.entries(listAnimals);
-  const entriesEmployees = Object.entries(listEmployees);
-
-  const responsibleForList = (
-    entriesEmployees.reduce((accumulator, currentValue) => {
-      const animalsForEmployee = [];
-      currentValue[1].forEach((element) => {
-        entriesAnimals.forEach((arrAnimal) => {
-          if (arrAnimal[1] === element) {
-            animalsForEmployee.push(arrAnimal[0]);
-          }
-        });
-      });
-      accumulator[currentValue[0]] = animalsForEmployee;
-
-      return accumulator;
-    }, {})
-  );
-
-  return responsibleForList;
-}; // OK
-
-const managers = (ids) => {
-  const nameOfManagers = data.employees.reduce((acc, { id: employeeId, firstName, lastName }) => {
-    ids.forEach((id) => {
-      if (employeeId === id) {
-        acc.push(`${firstName} ${lastName}`);
-      };
-    })
-    return acc;
-  }, []);
-
-  return nameOfManagers;
-};
-
-const createAnimalSearchArea = () => {
-  const { checked } = document.querySelector('#inputForAnimals');
-  const inputForEmployees = document.querySelector('#inputForEmployees');
-
-  if (checked) {
-    inputForEmployees.disabled = true;
-    const divBodyPage = document.querySelector('#bodyPage');
-    const sectionAnimal = document.createElement('section');
-    sectionAnimal.id = 'animal';
-    divBodyPage.appendChild(sectionAnimal);
-
-    // animals
-    const divAnimalSearchElements = document.createElement('div');
-    divAnimalSearchElements.id = 'animalSearchElements';
-
-    const divAnimalSearchResults = document.createElement('div');
-    divAnimalSearchResults.id = 'animalSearchResults';
-    
-    const labelForName = document.createElement('label');
-    labelForName.innerText = 'Nome:';
-    const inputForName = document.createElement('input');
-    inputForName.type = 'text';
-    inputForName.placeholder = 'Escreva o nome do animal aqui';
-
-    const labelForAge = document.createElement('label');
-    labelForAge.innerText = 'Idade mínima:';
-    const inputForAge = document.createElement('input');
-    inputForAge.type = 'number';
-    inputForAge.value = '0';
-
-    const buttonSearchAnimal = document.createElement('button');
-    buttonSearchAnimal.className = 'buttonSearchAnimal';
-    buttonSearchAnimal.innerText = 'Ok';
-
-    sectionAnimal.appendChild(divAnimalSearchElements);
-    sectionAnimal.appendChild(divAnimalSearchResults);
-    divAnimalSearchElements.appendChild(labelForName);
-    labelForName.appendChild(inputForName);
-    divAnimalSearchElements.appendChild(labelForAge);
-    labelForAge.appendChild(inputForAge);
-    divAnimalSearchElements.appendChild(buttonSearchAnimal);
-
-    buttonSearchAnimal.addEventListener('click', animalsOlderThan);
-
-  } else {
-    const errorMessageValidation = document.querySelector('#errorMessage');
-    if (errorMessageValidation) {
-      errorMessageValidation.remove();
-    }
-    inputForEmployees.disabled = false;
-    const sectionAnimal = document.querySelector('#animal');
-    sectionAnimal.remove();
-  }
-};
-
-const inputForAnimals = document.querySelector('#inputForAnimals');
-inputForAnimals.addEventListener('click', createAnimalSearchArea);
-
-const isManager = (id) => {
-  const managersIds = data.employees.reduce((acc, { managers }) => {
-    acc.push(...managers);
-    return acc;
-  }, []);
-  const trueOrFalse = managersIds.some(managerId => managerId === id);
-  return trueOrFalse;
-};
-
-const createEmployee = (newEmployee) => {
-  if (newEmployee !== undefined) {
-    const managerOrNotManager = isManager(newEmployee.id);
-    const divEmployeeSearchResults = document.querySelector('#employeeSearchResults');
-    const divFound = document.createElement('div');
-    divFound.id = 'employeeFound';
-    const employeeFullName = `${newEmployee.firstName} ${newEmployee.lastName}`;
-    const employeeName = document.createElement('h3');
-    let textEmployeeName = '';
-    if (managerOrNotManager) {
-      textEmployeeName = `${employeeFullName} (Manager)`;
-    } else {
-      textEmployeeName = `${employeeFullName}`;
-    }
-
-    const responsibleFor = animalsByIds(newEmployee);
-    const animalsResponsibleFor = responsibleFor.map(element => element.name);
-
-    const tagResponsibleFor = document.createElement('p');
-    tagResponsibleFor.innerText = (
-      `Responsável por: ${textModeler(animalsResponsibleFor)}`
-    );
-
-    const managersName = managers(newEmployee.managers);
-    const tagManagersName = document.createElement('p');
-
-    if (newEmployee.firstName === 'Stephanie') {
-      textEmployeeName = `${employeeFullName} (Principal Manager)`;
-    } else {
-      tagManagersName.innerText = `Líderes: ${textModeler(managersName)}`;
-    }
-
-    employeeName.innerText = textEmployeeName;
-
-    divEmployeeSearchResults.appendChild(divFound);
-    divFound.appendChild(employeeName);
-    divFound.appendChild(tagResponsibleFor);
-    divFound.appendChild(tagManagersName);
-  } 
-  else {
-    notFound('employee');
-  }
-};
-
-const employeeByName = (event) => {
-  removeElements('employee');
-  const employeeName = event.target.previousSibling.lastChild;
-  let obj = {};
-  if (employeeName.value === '') {
-    errorMessage(('employee'));
-  } else {
-    const { employees: arr } = data;
-    obj = arr.find(({ firstName: a, lastName: b }) => (
-      a === employeeName.value || b === employeeName.value || `${a} ${b}` === employeeName.value
-    ));
-    createEmployee(obj);
-  }
-};
-
-const createEmployeesSearchArea = () => {
-  const { checked } = document.querySelector('#inputForEmployees');
-  const inputForAnimals = document.querySelector('#inputForAnimals');
-
-  if(checked) {
-    inputForAnimals.disabled = true;
-    const divSearchAreasSelected = document.querySelector('#bodyPage');
-    const sectionEmployee = document.createElement('section');
-    sectionEmployee.id = 'employee';
-    divSearchAreasSelected.appendChild(sectionEmployee);
-
-    // employee
-    const labelForFirstOrLastName = document.createElement('label');
-    labelForFirstOrLastName.innerText = 'Nome:';
-    const divEmployeeSearchElements = document.createElement('div');
-    divEmployeeSearchElements.id = 'employeeSearchElements';
-    const inputForFirstOrLastName = document.createElement('input');
-    inputForFirstOrLastName.placeholder = 'Escreva o nome do funcionário';
-    inputForFirstOrLastName.type = 'text';
-    const buttonSearchEmployee = document.createElement('button');
-    buttonSearchEmployee.id = 'buttonSearchEmployee';
-    buttonSearchEmployee.innerText = 'Ok';
-    const divEmployeeSearchResults = document.createElement('div');
-    divEmployeeSearchResults.id = 'employeeSearchResults';
-
-    sectionEmployee.appendChild(divEmployeeSearchElements);
-    divEmployeeSearchElements.appendChild(labelForFirstOrLastName);
-    labelForFirstOrLastName.appendChild(inputForFirstOrLastName);
-    buttonSearchEmployee.addEventListener('click', employeeByName);
-    divEmployeeSearchElements.appendChild(buttonSearchEmployee);
-    sectionEmployee.appendChild(divEmployeeSearchResults);
-  } else {
-    inputForAnimals.disabled = false;
-    const errorMessageValidation = document.querySelector('#errorMessage');
-    const sectionEmployee = document.querySelector('#employee');
-    sectionEmployee.remove();
-    if (errorMessageValidation) {
-      errorMessageValidation.remove();
-    }
-  }
-};
-
-const inputForEmployees = document.querySelector('#inputForEmployees');
-inputForEmployees.addEventListener('click', createEmployeesSearchArea);
-
-const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []) => {
-  const newEmployee = {
-    id,
-    firstName,
-    lastName,
-    managers,
-    responsibleFor,
-  };
-
-  return data.employees.push(newEmployee);
-};
-
-const entryCalculator = () => {
-  removeElements('entrys');
-  const entrants = {
-    Adult: parseFloat(document.querySelector('#adult').value),
-    Senior: parseFloat(document.querySelector('#senior').value),
-    Child: parseFloat(document.querySelector('#child').value),
-  };
-
-  let sum = 0;
-
-  if (typeof entrants === 'object') {
-    const tCategory = Object.keys(entrants);
-    const numberOfTickets = Object.values(entrants);
-
-    tCategory.map((category, i) => {
-      sum += data.prices[category] * numberOfTickets[i];
-      return sum;
-    });
-  }
-
-  if (sum || sum === 0) {
-    const divEntrysSeaarchResults = document.querySelector('#pricesSearchResults');
-    const pForSum = document.createElement('p');
-    pForSum.innerText = `TOTAL: R$ ${sum}`;
-    pForSum.id = 'entrysFound';
-    divEntrysSeaarchResults.appendChild(pForSum);
-  } else {
-    errorMessage('prices');
-  }
-};
-
-const buttonSearchPrices = document.querySelector('#buttonSearchPrices');
-buttonSearchPrices.addEventListener('click', entryCalculator);
-
-const schedule = () => {
-  const dayName = document.querySelector('#scheduleInput').value;
-  const arrHours = Object.entries(data.hours);
-  const weekSchedule = arrHours.reduce((acc, day) => {
-    acc[day[0]] = `${day[1].open}am - ${day[1].close - 12}pm`;
-    return acc;
-  }, {});
-  weekSchedule.Monday = 'CLOSED';
-
-  if (dayName === '') {
-    scheduleTableCreator(weekSchedule);
-  } else {
-    const daySchedule = {};
-    daySchedule[dayName] = weekSchedule[dayName];
-    if (daySchedule[dayName] === undefined) {
-      notFound('schedule');
-    } else {
-      scheduleTableCreator(daySchedule);
-    }
-  }
-};
-
-const scheduleTableCreator = (daysAndHours) => {
-  removeElements('schedule');
-  const scheduleTable = document.querySelector('#scheduleSearchResults');
-  const tbody = document.createElement('tbody');
-  tbody.id = 'scheduleFound';
-
-  scheduleTable.appendChild(tbody);
-
-  let days = Object.keys(daysAndHours);
-
-  days.forEach((dayName) => {
-    const universalTr = document.createElement('tr');
-    const tdDay = document.createElement('td');
-    tdDay.innerText = dayName;
-
-    universalTr.appendChild(tdDay);
-
-    const tdHour = document.createElement('td');
-    tdHour.innerText = daysAndHours[dayName];
-
-    universalTr.appendChild(tdHour);
-    tbody.appendChild(universalTr);
-  })
-};
-
-schedule();
-
-const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
-scheduleSearchButton.addEventListener('click', schedule);
 
 const oldestFromFirstSpecies = (idEmployee) => {
   const { animals, employees } = data;
@@ -837,6 +609,176 @@ const oldestFromFirstSpecies = (idEmployee) => {
   return valuesAnimalFound;
 };
 
+// EMPPLOYEES FUNCTIONS
+const managersList = (ids) => {
+  const { employees } = data;
+  const namesOfManagers = (
+    employees
+      .reduce((acc, { id: employeeId, firstName, lastName }) => {
+        ids.forEach((id) => {
+          if (employeeId === id) {
+            acc.push(`${firstName} ${lastName}`);
+          };
+        })
+
+        return acc;
+      }, [])
+  );
+
+  return namesOfManagers;
+}; // OK
+
+const isManager = (id) => {
+  const managersIds = data.employees.reduce((acc, { managers }) => {
+    acc.push(...managers);
+    return acc;
+  }, []);
+  const trueOrFalse = managersIds.some(managerId => managerId === id);
+  return trueOrFalse;
+}; // OK
+
+const createEmployee = (newEmployee) => {
+  if (newEmployee !== undefined) {
+    const { id, firstName, lastName, managers } = newEmployee;
+    const checkManager = isManager(id);
+    const employeeSearchResults = document.querySelector('#employeeSearchResults');
+    const employeeFound = document.createElement('div');
+    employeeFound.id = 'employeeFound';
+    const employeeFullName = `${firstName} ${lastName}`;
+    const employeeName = document.createElement('h3');
+    let textEmployeeName = '';
+    if (checkManager) {
+      textEmployeeName = `${employeeFullName} (Manager)`;
+    } else {
+      textEmployeeName = `${employeeFullName}`;
+    }
+
+    const employeesAndYoursAnimals = animalsByIds(newEmployee);
+    const animals = (
+      employeesAndYoursAnimals.map(element => element.name)
+    );
+
+    const responsibleFor = document.createElement('p');
+    responsibleFor.innerText = (
+      `Responsável por: ${textModeler(animals)}`
+    );
+
+    const namesOfManagers = managersList(managers);
+    const yoursManagers = document.createElement('p');
+
+    if (firstName === 'Stephanie') {
+      textEmployeeName = `${employeeFullName} (Principal Manager)`;
+    } else {
+      yoursManagers.innerText = `Líderes: ${textModeler(namesOfManagers)}`;
+    }
+
+    employeeName.innerText = textEmployeeName;
+
+    employeeSearchResults.appendChild(employeeFound);
+    employeeFound.appendChild(employeeName);
+    employeeFound.appendChild(responsibleFor);
+    employeeFound.appendChild(yoursManagers);
+  } 
+  else {
+    notFound('employee');
+  }
+}; // OK
+
+const employeeByName = (event) => {
+  removeElements('employee');
+  const employeeName = event.target.previousSibling.lastChild;
+  let employeeInformations = {};
+  if (employeeName.value === '') {
+    errorMessage(('employee'));
+  } else {
+    const { employees } = data;
+    employeeInformations = (
+      employees.find(({ firstName, lastName }) => (
+        firstName === employeeName.value ||
+        lastName === employeeName.value ||
+        `${firstName} ${lastName}` === employeeName.value
+      ))
+    );
+    createEmployee(employeeInformations);
+  }
+}; // OK
+
+const createEmployeesSearchArea = () => {
+  const { checked } = document.querySelector('#inputForEmployees');
+  const inputForAnimals = document.querySelector('#inputForAnimals');
+
+  if(checked) {
+    inputForAnimals.disabled = true;
+    const bodyPage = document.querySelector('#bodyPage');
+    const sectionEmployee = document.createElement('section');
+    sectionEmployee.id = 'employee';
+    bodyPage.appendChild(sectionEmployee);
+
+    // employee
+    const employeeName = document.createElement('label');
+    employeeName.innerText = 'Nome:';
+    const employeeSearchElements = document.createElement('div');
+    employeeSearchElements.id = 'employeeSearchElements';
+    const employeeNameInput = document.createElement('input');
+    employeeNameInput.placeholder = 'Escreva o nome do funcionário';
+    employeeNameInput.type = 'text';
+    const buttonSearchEmployee = document.createElement('button');
+    buttonSearchEmployee.id = 'buttonSearchEmployee';
+    buttonSearchEmployee.innerText = 'Ok';
+    const employeeSearchResults = document.createElement('div');
+    employeeSearchResults.id = 'employeeSearchResults';
+
+    sectionEmployee.appendChild(employeeSearchElements);
+    employeeSearchElements.appendChild(employeeName);
+    employeeName.appendChild(employeeNameInput);
+    buttonSearchEmployee.addEventListener('click', employeeByName);
+    employeeSearchElements.appendChild(buttonSearchEmployee);
+    sectionEmployee.appendChild(employeeSearchResults);
+  } else {
+    inputForAnimals.disabled = false;
+    const checkErrorMessage = document.querySelector('#errorMessage');
+    const sectionEmployee = document.querySelector('#employee');
+    sectionEmployee.remove();
+    if (checkErrorMessage) {
+      checkErrorMessage.remove();
+    }
+  }
+}; // OK
+
+const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []) => {
+  const newEmployee = {
+    id,
+    firstName,
+    lastName,
+    managers,
+    responsibleFor,
+  };
+
+  return data.employees.push(newEmployee);
+};
+
+// Agradeço a ajuda de @loren-gt, @danwhat, @isaacbatst e @mhamaji que deram muitas dicas e
+// mostraram soluções diferentes fazendo com que conseguisse desenvolver a lógica
+// da função employeeCoverage
+const employeeCoverage = (idOrName) => {
+  const finalObject = responsibleListCreator();
+  if (idOrName !== undefined) {
+    const a = idOrName;
+    const employee = data.employees
+      .find(({ id, firstName, lastName }) => id === a || firstName === a || lastName === a);
+    const { firstName, lastName } = employee;
+    const keyAndValue = `${firstName} ${lastName}`;
+    const employeeFound = { [keyAndValue]: finalObject[keyAndValue] };
+
+    return employeeFound;
+  }
+
+  return finalObject;
+};
+
+// ENTRYS FUNCTIONS
+// A função decimalAdjust foi feita a partir do exemplo de ajuste decimal:
+// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Math/floor
 const decimalAdjust = (price) => {
   price = price.split('');
   const decimalPartString = price[4] + price[5];
@@ -855,8 +797,34 @@ const decimalAdjust = (price) => {
   return roundedPrice;
 };
 
-// A função decimalAdjust foi feita a partir do exemplo de ajuste decimal:
-// https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Math/floor
+const entryCalculator = () => {
+  removeElements('prices');
+  const ticketCategoriesAndQuantity = {
+    Adult: parseFloat(document.querySelector('#adult').value),
+    Senior: parseFloat(document.querySelector('#senior').value),
+    Child: parseFloat(document.querySelector('#child').value),
+  };
+
+  let sum = 0;
+
+  const ticketCategorys = Object.keys(ticketCategoriesAndQuantity);
+  const quantityOfTickets = Object.values(ticketCategoriesAndQuantity);
+
+  ticketCategorys.map((category, i) => {
+    sum += data.prices[category] * quantityOfTickets[i];
+    return sum;
+  });
+
+  if (sum || sum === 0) {
+    const pricesSearchResults = document.querySelector('#pricesSearchResults');
+    const pricesFound = document.createElement('p');
+    pricesFound.innerText = `TOTAL: R$ ${sum}`;
+    pricesFound.id = 'pricesFound';
+    pricesSearchResults.appendChild(pricesFound);
+  } else {
+    errorMessage('prices');
+  }
+}; // OK
 
 const increasePrices = (percentage) => {
   const entries = Object.entries(data.prices);
@@ -873,25 +841,70 @@ const increasePrices = (percentage) => {
   });
 };
 
-const employeeCoverage = (idOrName) => {
-  const finalObject = responsibleListCreator();
-  if (idOrName !== undefined) {
-    const a = idOrName;
-    const employee = data.employees
-      .find(({ id, firstName, lastName }) => id === a || firstName === a || lastName === a);
-    const { firstName, lastName } = employee;
-    const keyAndValue = `${firstName} ${lastName}`;
-    const employeeFound = { [keyAndValue]: finalObject[keyAndValue] };
+// SCHEDULE FUNCTIONS
+const scheduleTableCreator = (daysAndHours) => {
+  removeElements('schedule');
+  const scheduleSearchResults = document.querySelector('#scheduleSearchResults');
+  const tbody = document.createElement('tbody');
+  tbody.id = 'scheduleFound';
 
-    return employeeFound;
+  scheduleSearchResults.appendChild(tbody);
+
+  let days = Object.keys(daysAndHours);
+
+  days.forEach((dayName) => {
+    const tr = document.createElement('tr');
+    const tdDay = document.createElement('td');
+    tdDay.innerText = dayName;
+
+    tr.appendChild(tdDay);
+
+    const tdHour = document.createElement('td');
+    tdHour.innerText = daysAndHours[dayName];
+
+    tr.appendChild(tdHour);
+    tbody.appendChild(tr);
+  })
+}; // OK
+
+const schedule = () => {
+  const dayName = document.querySelector('#scheduleInput').value;
+  const daysAndHours = Object.entries(data.hours);
+  const weekSchedule = daysAndHours.reduce((acc, day) => {
+    acc[day[0]] = `${day[1].open}am - ${day[1].close - 12}pm`;
+    return acc;
+  }, {});
+  weekSchedule.Monday = 'CLOSED';
+
+  if (dayName === '') {
+    scheduleTableCreator(weekSchedule);
+  } else {
+    const daySchedule = {};
+    daySchedule[dayName] = weekSchedule[dayName];
+    if (daySchedule[dayName] === undefined) {
+      notFound('schedule');
+    } else {
+      scheduleTableCreator(daySchedule);
+    }
   }
+}; // OK
 
-  return finalObject;
+schedule();
+
+const handleInicialEvents = () => {
+  const inputForAnimals = document.querySelector('#inputForAnimals');
+  const inputForEmployees = document.querySelector('#inputForEmployees');
+  const buttonSearchPrices = document.querySelector('#buttonSearchPrices');
+  const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
+
+  inputForAnimals.addEventListener('click', createAnimalSearchArea);
+  inputForEmployees.addEventListener('click', createEmployeesSearchArea);
+  buttonSearchPrices.addEventListener('click', entryCalculator);
+  scheduleSearchButton.addEventListener('click', schedule);
 };
 
-// Agradeço a ajuda de @loren-gt, @danwhat, @isaacbatst e @mhamaji que deram muitas dicas e
-// mostraram soluções diferentes fazendo com que conseguisse desenvolver a lógica
-// da função employeeCoverage
+handleInicialEvents();
+
 
 module.exports = {
   entryCalculator,
