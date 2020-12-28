@@ -821,15 +821,18 @@ const entryCalculator = () => {
   const ticketCategorys = Object.keys(ticketCategoriesAndQuantity);
   const quantityOfTickets = Object.values(ticketCategoriesAndQuantity);
 
+  let sumFloatFixed = 0;
+
   ticketCategorys.map((category, i) => {
     sum += data.prices[category] * quantityOfTickets[i];
-    return sum;
+    sumFloatFixed = sum.toFixed(2);
+    return sumFloatFixed;
   });
 
   if (sum || sum === 0) {
     const pricesSearchResults = document.querySelector('#pricesSearchResults');
     const pricesFound = document.createElement('p');
-    pricesFound.innerText = `TOTAL: R$ ${sum}`;
+    pricesFound.innerText = `TOTAL: R$ ${sumFloatFixed}`;
     pricesFound.id = 'pricesFound';
     pricesSearchResults.appendChild(pricesFound);
   } else {
@@ -906,17 +909,20 @@ schedule();
 const handleInicialEvents = () => {
   const inputForAnimals = document.querySelector('#inputForAnimals');
   const inputForEmployees = document.querySelector('#inputForEmployees');
-  const buttonSearchPrices = document.querySelector('#buttonSearchPrices');
+  const adultInput = document.querySelector('#adult');
+  const senhiorInput = document.querySelector('#senior');
+  const childInput = document.querySelector('#child');
   const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
 
   inputForAnimals.addEventListener('click', createAnimalSearchArea);
   inputForEmployees.addEventListener('click', createEmployeesSearchArea);
-  buttonSearchPrices.addEventListener('click', entryCalculator);
+  adultInput.addEventListener('click', entryCalculator);
+  senhiorInput.addEventListener('click', entryCalculator);
+  childInput.addEventListener('click', entryCalculator);
   scheduleSearchButton.addEventListener('click', schedule);
 };
 
 handleInicialEvents();
-
 
 module.exports = {
   entryCalculator,

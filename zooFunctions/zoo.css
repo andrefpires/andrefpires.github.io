@@ -1,12 +1,38 @@
 body {
   color: white;
+  font-family: 'Andika New Basic', sans-serif;
   background-color: grey;
+  margin: 0;
+  padding: 0;
+}
+
+input[type='number'] {
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+  border: 0px;
+  padding-left: 5px;
+}
+
+#pricesSearchElements {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+#pricesSearchElements > p {
+  margin: 0 4px 0 4px;
 }
 
 #headPage {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+header {
+  margin-top: 0;
+  background-color: black;
 }
 
 #bodyPage {
@@ -19,7 +45,7 @@ body {
   flex-flow: row wrap;
   justify-content: space-around;
   padding-top: 20px;
-  height: 60vh;
+  min-height: 60vh;
 }
 
 #secondBlock {
@@ -28,9 +54,15 @@ body {
   justify-content: space-around;
 }
 
+#pricesSearchResults > p {
+  font-weight: bold;
+  font-size: 20px;
+}
+
 #schedule,
 #prices,
-#searchAreaSelector {
+#searchAreaSelector,
+#pricesSearchResults {
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -44,13 +76,13 @@ body {
 
 #scheduleSearchResults {
   border: 1px;
-  padding: 20px 0 0 0;
+  padding-top: 20px;
   text-align: center;
 }
 
 #pricesTable {
   border: 1px;
-  padding: 0 0 20px 0;
+  padding-bottom: 20px;
   text-align: center;
 }
 
@@ -65,8 +97,8 @@ td {
   background-color: black;
 }
 
-#pricesFound {
+/* #pricesFound {
   background-color: white;
   color: green;
   font-size: 22px;
-}
+} */
