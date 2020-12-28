@@ -553,16 +553,17 @@ const createAnimalSearchArea = () => {
     animalSearchResults.id = 'animalSearchResults';
     
     const animalName = document.createElement('label');
-    animalName.innerText = 'Nome:';
     const animalNameInput = document.createElement('input');
     animalNameInput.type = 'text';
-    animalNameInput.placeholder = 'Escreva o nome do animal';
+    animalNameInput.placeholder = 'Nome do animal';
 
     const animalAge = document.createElement('label');
     animalAge.innerText = 'Idade mínima:';
     const animalAgeInput = document.createElement('input');
     animalAgeInput.type = 'number';
     animalAgeInput.value = '0';
+    animalAgeInput.min = '0';
+    animalAgeInput.max = '99';
 
     const buttonSearchAnimal = document.createElement('button');
     buttonSearchAnimal.className = 'buttonSearchAnimal';
@@ -697,7 +698,7 @@ const createEmployee = (newEmployee) => {
 
 const employeeByName = (event) => {
   removeElements('employee');
-  const employeeName = event.target.previousSibling.lastChild;
+  const employeeName = event.target.previousSibling;
   let employeeInformations = {};
   if (employeeName.value === '') {
     errorMessage(('employee'));
@@ -726,12 +727,10 @@ const createEmployeesSearchArea = () => {
     bodyPage.appendChild(sectionEmployee);
 
     // employee
-    const employeeName = document.createElement('label');
-    employeeName.innerText = 'Nome:';
     const employeeSearchElements = document.createElement('div');
     employeeSearchElements.id = 'employeeSearchElements';
     const employeeNameInput = document.createElement('input');
-    employeeNameInput.placeholder = 'Escreva o nome do funcionário';
+    employeeNameInput.placeholder = 'Nome do funcionário';
     employeeNameInput.type = 'text';
     const buttonSearchEmployee = document.createElement('button');
     buttonSearchEmployee.id = 'buttonSearchEmployee';
@@ -740,8 +739,7 @@ const createEmployeesSearchArea = () => {
     employeeSearchResults.id = 'employeeSearchResults';
 
     sectionEmployee.appendChild(employeeSearchElements);
-    employeeSearchElements.appendChild(employeeName);
-    employeeName.appendChild(employeeNameInput);
+    employeeSearchElements.appendChild(employeeNameInput);
     buttonSearchEmployee.addEventListener('click', employeeByName);
     employeeSearchElements.appendChild(buttonSearchEmployee);
     sectionEmployee.appendChild(employeeSearchResults);
