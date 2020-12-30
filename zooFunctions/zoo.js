@@ -5,6 +5,7 @@ const data = {
       name: 'lions',
       popularity: 4,
       location: 'NE',
+      img: './images/animalsPictures/lions.png',
       residents: [
         {
           name: 'Zena',
@@ -33,6 +34,7 @@ const data = {
       name: 'tigers',
       popularity: 5,
       location: 'NW',
+      img: './images/animalsPictures/tigers.png',
       residents: [
         {
           name: 'Shu',
@@ -51,6 +53,7 @@ const data = {
       name: 'bears',
       popularity: 5,
       location: 'NW',
+      img: './images/animalsPictures/bears.png',
       residents: [
         {
           name: 'Hiram',
@@ -74,6 +77,7 @@ const data = {
       name: 'penguins',
       popularity: 4,
       location: 'SE',
+      img: './images/animalsPictures/penguins.png',
       residents: [
         {
           name: 'Joe',
@@ -102,6 +106,7 @@ const data = {
       name: 'otters',
       popularity: 4,
       location: 'SE',
+      img: './images/animalsPictures/otters.png',
       residents: [
         {
           name: 'Neville',
@@ -130,6 +135,7 @@ const data = {
       name: 'frogs',
       popularity: 2,
       location: 'SW',
+      img: './images/animalsPictures/frogs.png',
       residents: [
         {
           name: 'Cathey',
@@ -148,6 +154,7 @@ const data = {
       name: 'snakes',
       popularity: 3,
       location: 'SW',
+      img: './images/animalsPictures/snakes.png',
       residents: [
         {
           name: 'Paulette',
@@ -166,6 +173,7 @@ const data = {
       name: 'elephants',
       popularity: 5,
       location: 'NW',
+      img: './images/animalsPictures/elephants.png',
       residents: [
         {
           name: 'Ilana',
@@ -194,6 +202,7 @@ const data = {
       name: 'giraffes',
       popularity: 4,
       location: 'NE',
+      img: './images/animalsPictures/giraffes.png',
       residents: [
         {
           name: 'Gracia',
@@ -236,7 +245,8 @@ const data = {
       managers: ['0e7b460e-acf4-4e17-bcb3-ee472265db83',
         'fdb2543b-5662-46a7-badc-93d960fdc0a8'],
       responsibleFor: ['0938aa23-f153-4937-9f88-4858b24d6bce',
-        'e8481c1d-42ea-4610-8e11-1752cfc05a46']
+        'e8481c1d-42ea-4610-8e11-1752cfc05a46'],
+      img: './images/employeesPictures/nigel.png',
     },
     {
       id: '0e7b460e-acf4-4e17-bcb3-ee472265db83',
@@ -246,7 +256,8 @@ const data = {
       responsibleFor: ['0938aa23-f153-4937-9f88-4858b24d6bce',
         'e8481c1d-42ea-4610-8e11-1752cfc05a46',
         'baa6e93a-f295-44e7-8f70-2bcdc6f6948d',
-        'ef3778eb-2844-4c7c-b66c-f432073e1c6b']
+        'ef3778eb-2844-4c7c-b66c-f432073e1c6b'],
+      img: './images/employeesPictures/burl.png',
     },
     {
       id: 'fdb2543b-5662-46a7-badc-93d960fdc0a8',
@@ -256,7 +267,8 @@ const data = {
       responsibleFor: ['533bebf3-6bbe-41d8-9cdf-46f7d13b62ae',
         '89be95b3-47e4-4c5b-b687-1fabf2afa274',
         '78460a91-f4da-4dea-a469-86fd2b8ccc84',
-        'bb2a76d8-5fe3-4d03-84b7-dba9cfc048b5']
+        'bb2a76d8-5fe3-4d03-84b7-dba9cfc048b5'],
+      img: './images/employeesPictures/ola.png',
     },
     {
       id: '56d43ba3-a5a7-40f6-8dd7-cbb05082383f',
@@ -265,7 +277,8 @@ const data = {
       managers: ['0e7b460e-acf4-4e17-bcb3-ee472265db83',
         'fdb2543b-5662-46a7-badc-93d960fdc0a8'],
       responsibleFor: ['78460a91-f4da-4dea-a469-86fd2b8ccc84',
-        'bb2a76d8-5fe3-4d03-84b7-dba9cfc048b5']
+        'bb2a76d8-5fe3-4d03-84b7-dba9cfc048b5'],
+      img: './images/employeesPictures/wilburn.png',
     },
     {
       id: '9e7d4524-363c-416a-8759-8aa7e50c0992',
@@ -274,8 +287,8 @@ const data = {
       managers: [],
       responsibleFor: [
         '01422318-ca2d-46b8-b66c-3e9e188244ed',
-        '533bebf3-6bbe-41d8-9cdf-46f7d13b62ae'
-      ]
+        '533bebf3-6bbe-41d8-9cdf-46f7d13b62ae'],
+      img: './images/employeesPictures/stephanie.png',
     },
     {
       id: '4b40a139-d4dc-4f09-822d-ec25e819a5ad',
@@ -284,7 +297,8 @@ const data = {
       managers: ['0e7b460e-acf4-4e17-bcb3-ee472265db83',
         'fdb2543b-5662-46a7-badc-93d960fdc0a8'],
       responsibleFor: ['533bebf3-6bbe-41d8-9cdf-46f7d13b62ae',
-        '89be95b3-47e4-4c5b-b687-1fabf2afa274']
+        '89be95b3-47e4-4c5b-b687-1fabf2afa274'],
+      img: './images/employeesPictures/sharonda.png',
     },
     {
       id: 'c1f50212-35a6-4ecd-8223-f835538526c2',
@@ -292,7 +306,8 @@ const data = {
       lastName: 'Azevado',
       managers: ['b0dc644a-5335-489b-8a2c-4e086c7819a2'],
       responsibleFor: ['e8481c1d-42ea-4610-8e11-1752cfc05a46',
-        'baa6e93a-f295-44e7-8f70-2bcdc6f6948d']
+        'baa6e93a-f295-44e7-8f70-2bcdc6f6948d'],
+      img: './images/employeesPictures/ardith.png',
     },
     {
       id: 'b0dc644a-5335-489b-8a2c-4e086c7819a2',
@@ -301,7 +316,8 @@ const data = {
       managers: ['9e7d4524-363c-416a-8759-8aa7e50c0992'],
       responsibleFor: ['bb2a76d8-5fe3-4d03-84b7-dba9cfc048b5',
         'baa6e93a-f295-44e7-8f70-2bcdc6f6948d',
-        '0938aa23-f153-4937-9f88-4858b24d6bce']
+        '0938aa23-f153-4937-9f88-4858b24d6bce'],
+      img: './images/employeesPictures/emery.png',
     }
   ],
   hours: {
@@ -328,7 +344,7 @@ const errorMessage = (sectionName) => {
   errorTextElement.innerText = (
     'Campo necessário para busca vazio'
   );
-  errorTextElement.id = `${sectionName}errorMessage`;
+  errorTextElement.id = `${sectionName}ErrorMessage`;
   parentElement.appendChild(errorTextElement);
 }; // OK
 
@@ -336,7 +352,7 @@ const removeElements = (sectionName) => {
   const { found, notFound, errorMessage } = {
     found: document.querySelector(`#${sectionName}Found`),
     notFound: document.querySelector(`#${sectionName}NotFound`),
-    errorMessage: document.querySelector(`#${sectionName}errorMessage`),
+    errorMessage: document.querySelector(`#${sectionName}ErrorMessage`),
   };
 
   if (found) {
@@ -394,7 +410,10 @@ const createAnimalResidents = ({ residents }) => {
   const titleResidentsElement = document.createElement('h3');
   titleResidentsElement.innerText = `Residents: ${residents.length}`;
   const divForResidents = document.querySelector('#animalResidents');
+  const newResidents = document.createElement('div');
+  newResidents.id = 'newResidents';
   divForResidents.appendChild(titleResidentsElement);
+  divForResidents.appendChild(newResidents);
 
   residents.forEach((resident) => {
     const newResident = document.createElement('div');
@@ -411,7 +430,7 @@ const createAnimalResidents = ({ residents }) => {
     newResident.appendChild(residentSex);
     newResident.appendChild(residentAge);
 
-    divForResidents.appendChild(newResident);
+    newResidents.appendChild(newResident);
   });
 }; // OK
 
@@ -459,7 +478,6 @@ const createAnimalInformations = (informations) => {
   animalInformations.id = 'animalInformations';
   const animalResidents = document.createElement('div');
   animalResidents.id = 'animalResidents';
-
   animalSearchResults.appendChild(animalFound);
   animalFound.appendChild(animalInformations);
   animalFound.appendChild(animalResidents);
@@ -468,6 +486,8 @@ const createAnimalInformations = (informations) => {
   const animalAtributes = ['name', 'location', 'popularity'];
   const animalsAndYourResponsibles = Object.entries(responsibleListCreator());
   const employeesResponsibles = document.createElement('p');
+  const responsiblesTitle = document.createElement('h3');
+  responsiblesTitle.innerText = 'Responsáveis:'
 
   const responsibles = [];
 
@@ -482,13 +502,24 @@ const createAnimalInformations = (informations) => {
 
   employeesResponsibles.innerText = textModeler(responsibles);
 
+  const otherElements = document.createElement('div');
+  const animalImgElement = document.createElement('img');
+  animalImgElement.id = 'animalImage';
+  animalImgElement.src = informations.img;
+  animalImgElement.width = 400;
+
+  let newElement = null;
+
   tagNames.map((tagName, index) => {
-    const newElement = document.createElement(tagName);
+    newElement = document.createElement(tagName);
     newElement.innerText = informations[animalAtributes[index]];
-    animalInformations.appendChild(newElement);
+    otherElements.appendChild(newElement);
   });
 
-  animalInformations.appendChild(employeesResponsibles);
+  otherElements.appendChild(responsiblesTitle);
+  otherElements.appendChild(employeesResponsibles);
+  animalInformations.appendChild(otherElements);
+  animalInformations.appendChild(animalImgElement);
 
   createAnimalResidents(informations);
 }; // OK
@@ -580,10 +611,6 @@ const createAnimalSearchArea = () => {
     buttonSearchAnimal.addEventListener('click', animalsOlderThan);
 
   } else {
-    const errorMessageValidation = document.querySelector('#errorMessage');
-    if (errorMessageValidation) {
-      errorMessageValidation.remove();
-    }
     employeeSearchArea.disabled = false;
     const sectionAnimal = document.querySelector('#animal');
     sectionAnimal.remove();
@@ -657,7 +684,7 @@ const createEmployee = (newEmployee) => {
     const employeeFound = document.createElement('div');
     employeeFound.id = 'employeeFound';
     const employeeFullName = `${firstName} ${lastName}`;
-    const employeeName = document.createElement('h3');
+    const employeeName = document.createElement('h2');
     let textEmployeeName = '';
     if (checkManager) {
       textEmployeeName = `${employeeFullName} (Manager)`;
@@ -669,27 +696,46 @@ const createEmployee = (newEmployee) => {
     const animals = (
       employeesAndYoursAnimals.map(element => element.name)
     );
-
-    const responsibleFor = document.createElement('p');
-    responsibleFor.innerText = (
-      `Responsável por: ${textModeler(animals)}`
-    );
+    
+    const employeeInformations = document.createElement('div');
+    employeeInformations.id = 'employeeInformations';
+    const responsibleForTitle = document.createElement('h3');
+    responsibleForTitle.innerText = 'Responsável por:';
+    const responsibleForTxt = document.createElement('p');
+    responsibleForTxt.innerText = textModeler(animals);
 
     const namesOfManagers = managersList(managers);
-    const yoursManagers = document.createElement('p');
+
+    const yoursManagersTitle = document.createElement('h3');
+    yoursManagersTitle.innerText = 'Líderes:';
+    const yoursManagersTxt = document.createElement('p');
 
     if (firstName === 'Stephanie') {
-      textEmployeeName = `${employeeFullName} (Principal Manager)`;
+      textEmployeeName = (
+        `${employeeFullName} (Principal Manager)`
+      );
     } else {
-      yoursManagers.innerText = `Líderes: ${textModeler(namesOfManagers)}`;
+      yoursManagersTxt.innerText = textModeler(namesOfManagers);
     }
 
     employeeName.innerText = textEmployeeName;
 
     employeeSearchResults.appendChild(employeeFound);
-    employeeFound.appendChild(employeeName);
-    employeeFound.appendChild(responsibleFor);
-    employeeFound.appendChild(yoursManagers);
+    employeeInformations.appendChild(employeeName);
+    employeeInformations.appendChild(responsibleForTitle);
+    employeeInformations.appendChild(responsibleForTxt);
+
+    if (yoursManagersTxt.innerText !== '') {
+      employeeInformations.appendChild(yoursManagersTitle);
+      employeeInformations.appendChild(yoursManagersTxt);
+    }
+
+    const employeePicture = document.createElement('img');
+    employeePicture.src = newEmployee.img;
+    employeePicture.width = 450;
+
+    employeeFound.appendChild(employeeInformations);
+    employeeFound.appendChild(employeePicture);
   } 
   else {
     notFound('employee');
@@ -745,12 +791,8 @@ const createEmployeesSearchArea = () => {
     sectionEmployee.appendChild(employeeSearchResults);
   } else {
     inputForAnimals.disabled = false;
-    const checkErrorMessage = document.querySelector('#errorMessage');
     const sectionEmployee = document.querySelector('#employee');
     sectionEmployee.remove();
-    if (checkErrorMessage) {
-      checkErrorMessage.remove();
-    }
   }
 }; // OK
 
@@ -904,19 +946,27 @@ const schedule = () => {
 
 schedule();
 
+const noKeys = (event) => {
+  alert('Use os botões do input');
+  event.target.value = 0;
+};
+
 const handleInicialEvents = () => {
   const inputForAnimals = document.querySelector('#inputForAnimals');
   const inputForEmployees = document.querySelector('#inputForEmployees');
   const adultInput = document.querySelector('#adult');
-  const senhiorInput = document.querySelector('#senior');
+  const seniorInput = document.querySelector('#senior');
   const childInput = document.querySelector('#child');
   const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
 
   inputForAnimals.addEventListener('click', createAnimalSearchArea);
   inputForEmployees.addEventListener('click', createEmployeesSearchArea);
   adultInput.addEventListener('click', entryCalculator);
-  senhiorInput.addEventListener('click', entryCalculator);
+  adultInput.addEventListener('keyup', noKeys);
+  seniorInput.addEventListener('click', entryCalculator);
+  seniorInput.addEventListener('keyup', noKeys);
   childInput.addEventListener('click', entryCalculator);
+  childInput.addEventListener('keyup', noKeys);
   scheduleSearchButton.addEventListener('click', schedule);
 };
 
