@@ -336,6 +336,7 @@ const data = {
   }
 };
 
+
 // GERAL FUNCTIONS
 const errorMessage = (sectionName) => {
   const idName = `#${sectionName}SearchResults`;
@@ -924,23 +925,24 @@ const scheduleTableCreator = (daysAndHours) => {
 }; // OK
 
 const schedule = () => {
-  const dayName = document.querySelector('#scheduleInput').value;
+  const dayName = document.querySelector('#scheduleInput');
   const daysAndHours = Object.entries(data.hours);
   const weekSchedule = daysAndHours.reduce((acc, day) => {
     acc[day[0]] = `${day[1].open}am - ${day[1].close - 12}pm`;
     return acc;
   }, {});
   weekSchedule.Monday = 'CLOSED';
-
-  if (dayName === '') {
-    scheduleTableCreator(weekSchedule);
-  } else {
-    const daySchedule = {};
-    daySchedule[dayName] = weekSchedule[dayName];
-    if (daySchedule[dayName] === undefined) {
-      notFound('schedule');
+  if(dayName) {
+    if (dayName.value === '') {
+      scheduleTableCreator(weekSchedule);
     } else {
-      scheduleTableCreator(daySchedule);
+      const daySchedule = {};
+      daySchedule[dayName.value] = weekSchedule[dayName.value];
+      if (daySchedule[dayName.value] === undefined) {
+        notFound('schedule');
+      } else {
+        scheduleTableCreator(daySchedule);
+      }
     }
   }
 }; // OK
@@ -953,27 +955,31 @@ const noKeys = (event) => {
 };
 
 const handleInicialEvents = () => {
-  const inputForAnimals = document.querySelector('#inputForAnimals');
-  const inputForEmployees = document.querySelector('#inputForEmployees');
   const adultInput = document.querySelector('#adult');
   const seniorInput = document.querySelector('#senior');
   const childInput = document.querySelector('#child');
   const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
+  const inputForAnimals = document.querySelector('#inputForAnimals');
+  const inputForEmployees = document.querySelector('#inputForEmployees');
 
-  inputForAnimals.addEventListener('click', createAnimalSearchArea);
-  inputForEmployees.addEventListener('click', createEmployeesSearchArea);
-  adultInput.addEventListener('click', entryCalculator);
-  adultInput.addEventListener('keyup', noKeys);
-  seniorInput.addEventListener('click', entryCalculator);
-  seniorInput.addEventListener('keyup', noKeys);
-  childInput.addEventListener('click', entryCalculator);
-  childInput.addEventListener('keyup', noKeys);
-  scheduleSearchButton.addEventListener('click', schedule);
+  if (adultInput) {
+    inputForAnimals.addEventListener('click', createAnimalSearchArea);
+    inputForEmployees.addEventListener('click', createEmployeesSearchArea);
+    adultInput.addEventListener('click', entryCalculator);
+    adultInput.addEventListener('keyup', noKeys);
+    seniorInput.addEventListener('click', entryCalculator);
+    seniorInput.addEventListener('keyup', noKeys);
+    childInput.addEventListener('click', entryCalculator);
+    childInput.addEventListener('keyup', noKeys);
+    scheduleSearchButton.addEventListener('click', schedule);
+  }
 };
 
 handleInicialEvents();
 
 module.exports = {
+  textModeler,
+  responsibleListCreator,
   entryCalculator,
   schedule,
   animalCount,
