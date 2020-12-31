@@ -6,79 +6,10 @@ body {
   padding: 0;
 }
 
-#pricesSearchElements > label > input[type='number'] {
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 10px;
-  text-align: center;
-  border: 0px;
-  padding-left: 5px;
-}
-
-#pricesSearchElements {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-}
-
-#newResidents {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-
-#pricesSearchElements > p {
-  margin: 0 4px 0 4px;
-}
-
-.newResident {
-  text-align: center;
-  margin: 0 40px 0 40px;
-}
-
-#animalInformations {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  background-color: black;
-}
-
-#animalInformations > div {
-  text-align: center;
-  margin: 0 20px 0 20px;
-}
-
-#animalResidents > h3 {
-  text-align: center;
-  color:white;
-  background-color: black;
-  border-radius: 10px;
-  padding: 10px
-}
-
-#animalResidents {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  color: black;
-  min-height: 220px;
-}
-
-#animalFound {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  background-color: white;
-  margin-top: 10px;
-}
-
 #headPage {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-}
-
-header {
   background-color: black;
 }
 
@@ -88,151 +19,187 @@ header {
   min-height: 200vh;
 }
 
-input[type='text'] {
-  background-color: white;
-  font-size: 16px;
-  color: black;
-  border: 1px solid rgb(92, 110, 56);
-  border-radius: 10px;
-  padding: 6px 0 6px 0;
-  text-align: center;
-}
-
-#animalSearchElements > label > input[type='number'] {
-  background-color: white;
-  color: black;
-  font-size: 16px;
-  border: 1px solid rgb(92, 110, 56);
-  border-radius: 10px;
-  margin: 4px 10px 4px 10px;
-  text-align: center;
-}
-
-button {
-  background-color: rgb(92, 110, 56);
-  font-size: 16px;
-  color:white;
-  font-weight: bold;
-  border: 0px;
-  padding: 6px 20px 6px 20px;
-  border-radius: 10px;
-  margin-top: 6px;
-}
-
-#animalSearchResults {
-  font-size: 20px;
-}
-
-#animalSearchElements {
-  display: flex;
-  font-size: 20px;
-  flex-flow: column wrap;
-  align-items: center;
-  padding-top: 10px;
-  color: black;
-}
-
-#pricesSecondSection {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  background-color: black;
-  padding: 0 20px 0 20px;
-  border-radius: 10px;
-}
-
 #firstBlock {
   display: flex;
-  font-size: 24px;
   flex-flow: row wrap;
   justify-content: space-around;
-  padding-top: 20px;
-  background-image: url('./images/background.png'); 
+  background-image: url('./images/background.png');
   background-position: center;
   background-size: cover;
-  padding-top: 90px;
-  min-height: 60vh;
-}
-
-#secondBlock {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
-  padding-top: 20px;
-}
-
-#pricesSearchResults > p {
-  font-weight: bold;
-  font-size: 20px;
-  background-color: rgb(92, 110, 56);
-  padding: 6px;
-  border-radius: 10px;
+  font-size: 24px;
+  padding: 2%;
+  /* min-height: 60vh; */
 }
 
 #prices {
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  justify-content: flex-start;
-}
-
-#schedule,
-#employeeSearchElements,
-#pricesSearchResults {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-}
-
-#searchAreaSelector {
-  display: flex;
-  font-size: 20px;
-  flex-flow: column wrap;
-  align-items: center;
-  background-color: black;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-#animal, #employee {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  margin-top: 20px;
-}
-
-#scheduleSearchResults {
-  border: 1px;
-  padding-top: 20px;
+  justify-content: space-evenly;
   text-align: center;
 }
 
 #pricesTable {
-  border: 1px;
-  padding-bottom: 20px;
+  padding-bottom: 4%;
+}
+
+#schedule {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: flex-start;
   text-align: center;
 }
 
-th {
-  color: white;
-  background-color: rgb(92, 110, 56);
-  padding: 2px 40px 2px 40px;
+#scheduleSearchElements {
+  padding-bottom: 4%;
 }
 
-td {
-  padding: 10px;
-  background-color: grey;
+#scheduleSearchResults {
+  padding-bottom: 8%;
 }
 
-#animalNotFound,
-#animalErrorMessage,
-#employeeNotFound,
-#employeeErrorMessage {
-  font-size: 20px;
+#entrysCalculator {
+  background-color: black;
+  padding: 0 10px 0 10px;
+  border-radius: 10px;
+}
+
+#pricesSearchElements > label > input {
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 10px;
+  text-align: center;
+  border: 0px;
+  margin-left: 10px;
+}
+
+#pricesSearchElements > p {
+  margin: 2%;
+}
+
+#pricesSearchElements > label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pricesSearchResults {
+  display: flex;
+  justify-content: center;
+}
+
+#pricesSearchResults > p {
   font-weight: bold;
+  font-size: 20px;
+  background-color: rgb(92, 110, 56);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#secondBlock {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding: 2%;
+}
+
+#searchAreaSelector {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  background-color: black;
+  padding: 20px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+#animal {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
   color: black;
-  border-bottom: 2px solid red;
-  padding-bottom: 2px;
+}
+
+#animalSearchElements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgb(92, 110, 56);
+  border-radius: 10px;
+  padding: 30px;
+  background-color: white;
+}
+
+#animalSearchElements > label {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  padding-top: 6px;
+  font-size: 20px;
+}
+
+#animalSearchResults {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+
+#animalFound {
+  background-color: white;
+  margin-top: 20px;
+}
+
+#animalInformations {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  background-color: black;
+}
+
+#textInformations {
+  margin: 0 20px 0 20px;
+}
+
+#animalResidents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  min-height: 220px;
+}
+
+#animalResidents > h3 {
+  color:white;
+  background-color: black;
+  border-radius: 10px;
+  padding: 10px
+}
+
+#newResidents {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.newResident {
+  text-align: center;
+  margin: 0 40px 0 40px;
+}
+
+#employee {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+#employeeSearchElements {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
 }
 
 #employeeFound {
@@ -263,6 +230,54 @@ td {
   margin-bottom: 0px;
 }
 
-/* #employeeSearchResults {
-  -bottom: 20px;
-} */
+input[type='number'] {
+  background-color: white;
+  border: 1px solid rgb(92, 110, 56);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+input[type='text'] {
+  background-color: white;
+  font-size: 16px;
+  color: black;
+  border: 1px solid rgb(92, 110, 56);
+  border-radius: 10px;
+  padding: 6px 0 6px 0;
+  text-align: center;
+}
+
+button {
+  background-color: rgb(92, 110, 56);
+  font-size: 16px;
+  color:white;
+  font-weight: bold;
+  border: 0px;
+  padding: 6px 20px 6px 20px;
+  border-radius: 10px;
+  margin-top: 6px;
+}
+
+th {
+  color: white;
+  background-color: rgb(92, 110, 56);
+  padding: 2px 40px 2px 40px;
+}
+
+td {
+  padding: 10px;
+  background-color: grey;
+}
+
+#animalNotFound,
+#animalErrorMessage,
+#employeeNotFound,
+#employeeErrorMessage {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  border-bottom: 2px solid red;
+  padding-bottom: 2px;
+}

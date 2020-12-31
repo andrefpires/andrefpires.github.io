@@ -407,12 +407,12 @@ const textModeler = (words) => {
 
 // ANIMALS FUNCTIONS
 const createAnimalResidents = ({ residents }) => {
-  const titleResidentsElement = document.createElement('h3');
-  titleResidentsElement.innerText = `Residents: ${residents.length}`;
+  const titleResidentsCount = document.createElement('h3');
+  titleResidentsCount.innerText = `Residents: ${residents.length}`;
   const divForResidents = document.querySelector('#animalResidents');
   const newResidents = document.createElement('div');
   newResidents.id = 'newResidents';
-  divForResidents.appendChild(titleResidentsElement);
+  divForResidents.appendChild(titleResidentsCount);
   divForResidents.appendChild(newResidents);
 
   residents.forEach((resident) => {
@@ -502,24 +502,25 @@ const createAnimalInformations = (informations) => {
 
   employeesResponsibles.innerText = textModeler(responsibles);
 
-  const otherElements = document.createElement('div');
-  const animalImgElement = document.createElement('img');
-  animalImgElement.id = 'animalImage';
-  animalImgElement.src = informations.img;
-  animalImgElement.width = 400;
+  const textInformations = document.createElement('div');
+  textInformations.id = 'textInformations';
+  const animalPicture = document.createElement('img');
+  animalPicture.id = 'animalImage';
+  animalPicture.src = informations.img;
+  animalPicture.width = 400;
 
   let newElement = null;
 
   tagNames.map((tagName, index) => {
     newElement = document.createElement(tagName);
     newElement.innerText = informations[animalAtributes[index]];
-    otherElements.appendChild(newElement);
+    textInformations.appendChild(newElement);
   });
 
-  otherElements.appendChild(responsiblesTitle);
-  otherElements.appendChild(employeesResponsibles);
-  animalInformations.appendChild(otherElements);
-  animalInformations.appendChild(animalImgElement);
+  textInformations.appendChild(responsiblesTitle);
+  textInformations.appendChild(employeesResponsibles);
+  animalInformations.appendChild(textInformations);
+  animalInformations.appendChild(animalPicture);
 
   createAnimalResidents(informations);
 }; // OK
