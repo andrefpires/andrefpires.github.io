@@ -330,12 +330,11 @@ const data = {
     'Saturday': { open: 8, close: 22 },
   },
   prices: {
-    'Adult': 49.99,
-    'Senior': 24.99,
-    'Child': 20.99
+    'adult': 49.99,
+    'senior': 24.99,
+    'child': 20.99
   }
 };
-
 
 // GERAL FUNCTIONS
 const errorMessage = (sectionName) => {
@@ -404,6 +403,32 @@ const textModeler = (words) => {
   },'');
 
   return text;
+}; // OK
+
+const noKeys = (event) => {
+  alert('Use os botões do input');
+  event.target.value = 0;
+}; // OK
+
+const handleInicialEvents = () => {
+  const adultInput = document.querySelector('#adultInput');
+  const seniorInput = document.querySelector('#seniorInput');
+  const childInput = document.querySelector('#childInput');
+  const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
+  const inputForAnimals = document.querySelector('#inputForAnimals');
+  const inputForEmployees = document.querySelector('#inputForEmployees');
+
+  if (adultInput) {
+    inputForAnimals.addEventListener('click', createAnimalSearchArea);
+    inputForEmployees.addEventListener('click', createEmployeesSearchArea);
+    adultInput.addEventListener('click', entryCalculator);
+    adultInput.addEventListener('keyup', noKeys);
+    seniorInput.addEventListener('click', entryCalculator);
+    seniorInput.addEventListener('keyup', noKeys);
+    childInput.addEventListener('click', entryCalculator);
+    childInput.addEventListener('keyup', noKeys);
+    scheduleSearchButton.addEventListener('click', schedule);
+  }
 }; // OK
 
 // ANIMALS FUNCTIONS
@@ -807,7 +832,7 @@ const addEmployee = (id, firstName, lastName, managers = [], responsibleFor = []
     responsibleFor,
   };
 
-  return data.employees.push(newEmployee);
+  data.employees.push(newEmployee);
 };
 
 // Agradeço a ajuda de @loren-gt, @danwhat, @isaacbatst e @mhamaji que deram muitas dicas e
@@ -834,12 +859,15 @@ const employeeCoverage = (idOrName) => {
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Math/floor
 const decimalAdjust = (price) => {
   price = price.split('');
-  const decimalPartString = price[4] + price[5];
-  const decimalPartNumber = parseInt(decimalPartString, 10);
-  const decimalNumber = decimalPartNumber / 10;
+  const priceDecimalPart = parseFloat(price[4] + price[5]);
+  const decimalNumber = priceDecimalPart / 10;
   const roundedDecimalNumber = Math.ceil(decimalNumber);
-  price.pop();
-  price.pop();
+
+  const excessNumeral = price.length - 5;
+  for (let i = 0; i < excessNumeral; i += 1) {
+    price.pop()
+  }
+
   let roundedPrice = '';
   price[4] = roundedDecimalNumber;
   price.forEach((number) => {
@@ -848,14 +876,14 @@ const decimalAdjust = (price) => {
 
   roundedPrice = parseFloat(roundedPrice);
   return roundedPrice;
-};
+}; // OK
 
 const entryCalculator = () => {
   removeElements('prices');
   const ticketCategoriesAndQuantity = {
-    Adult: parseFloat(document.querySelector('#adult').value),
-    Senior: parseFloat(document.querySelector('#senior').value),
-    Child: parseFloat(document.querySelector('#child').value),
+    adult: parseFloat(document.querySelector('#adultInput').value),
+    senior: parseFloat(document.querySelector('#seniorInput').value),
+    child: parseFloat(document.querySelector('#childInput').value),
   };
 
   let sum = 0;
@@ -883,9 +911,10 @@ const entryCalculator = () => {
 }; // OK
 
 const increasePrices = (percentage) => {
-  const entries = Object.entries(data.prices);
+  const dataPrices = Object.entries(data.prices);
   const multiplier = percentage / 100;
-  const newPrices = entries.map((array) => {
+  const tdIdNames = ['adult', 'senior', 'child'];
+  const newPrices = dataPrices.map((array, i) => {
     let increasePrice = array[1];
     increasePrice += array[1] * multiplier;
     const fixedIncreasePrice = increasePrice.toFixed(3);
@@ -893,9 +922,11 @@ const increasePrices = (percentage) => {
   });
 
   newPrices.forEach((newPrice, i) => {
-    data.prices[entries[i][0]] = decimalAdjust(newPrice);
+    data.prices[dataPrices[i][0]] = decimalAdjust(newPrice);
+    const td = document.querySelector(`#${tdIdNames[i]}`);
+    td.innerText = `R$ ${data.prices[tdIdNames[i]]}`;
   });
-};
+}; // OK
 
 // SCHEDULE FUNCTIONS
 const scheduleTableCreator = (daysAndHours) => {
@@ -949,48 +980,22 @@ const schedule = () => {
 
 schedule();
 
-const noKeys = (event) => {
-  alert('Use os botões do input');
-  event.target.value = 0;
-};
+const date = new Date();
+const day = date.getDay();
 
-const handleInicialEvents = () => {
-  const adultInput = document.querySelector('#adult');
-  const seniorInput = document.querySelector('#senior');
-  const childInput = document.querySelector('#child');
-  const scheduleSearchButton = document.querySelector('#scheduleSearchButton');
-  const inputForAnimals = document.querySelector('#inputForAnimals');
-  const inputForEmployees = document.querySelector('#inputForEmployees');
-
-  if (adultInput) {
-    inputForAnimals.addEventListener('click', createAnimalSearchArea);
-    inputForEmployees.addEventListener('click', createEmployeesSearchArea);
-    adultInput.addEventListener('click', entryCalculator);
-    adultInput.addEventListener('keyup', noKeys);
-    seniorInput.addEventListener('click', entryCalculator);
-    seniorInput.addEventListener('keyup', noKeys);
-    childInput.addEventListener('click', entryCalculator);
-    childInput.addEventListener('keyup', noKeys);
-    scheduleSearchButton.addEventListener('click', schedule);
-  }
-};
+if (day < 4) {
+  increasePrices(-50);
+}
 
 handleInicialEvents();
 
 module.exports = {
   textModeler,
   responsibleListCreator,
-  entryCalculator,
-  schedule,
   animalCount,
-  animalMap,
-  animalsByIds,
-  employeeByName,
-  employeeCoverage,
-  addEmployee,
-  isManager,
-  animalsOlderThan,
   oldestFromFirstSpecies,
-  increasePrices,
-  createEmployee,
+  managersList,
+  isManager,
+  employeeCoverage,
+  decimalAdjust,
 };
